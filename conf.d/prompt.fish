@@ -19,6 +19,17 @@ set FISH_CONFIG_HOSTNAME_LENGTH (string length "$FISH_CONFIG_HOSTNAME")
 set FISH_REAL_CLEAR (which clear)
 set FISH_CURRENT_TTY (tty | sed 's/^\/dev\///')
 
+function fish_prompt_header_username_setter
+    if [ "$FISH_CONFIG_WHOAMI" = "root" ]
+        echo ""
+    else
+        echo "$FISH_CONFIG_USERNAME@"
+    end
+end
+
+set FISH_HEADER_USERNAME (fish_prompt_header_username_setter)
+set FISH_HEADER_USERNAME_LENGTH (/usr/local/lib/bashrc-tools/strcolumns "$FISH_HEADER_USERNAME")
+
 set FISH_PREVIOUS_DIRECTORY ""
 
 # fills the given length with character
@@ -43,14 +54,13 @@ end
 ##
 function fish_prompt_header
     # initial length of prompt
-    set -l prompt_len (math 16+$FISH_CONFIG_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
+    set -l prompt_len (math 15+$FISH_HEADER_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
 
     # prompt header begin - contains redraw glitch fix
     printf "          \n#───[ "
 
     # print full username with hostname
-    printf $FISH_CONFIG_USERNAME
-    printf @
+    printf $FISH_HEADER_USERNAME
     set_color --bold b1321c
     printf $FISH_CONFIG_HOSTNAME
     set_color normal
@@ -324,15 +334,21 @@ end
 ## Prompt Input Line
 ##
 function fish_prompt_input_line
+    printf "# "
+
+    if [ "$FISH_CONFIG_WHOAMI" = "root" ]
+        set_color b60000
+        printf "(root)"
+        set_color normal
+    end
+
     if [ ! -z "$VPNSHELL" ]
-        printf "# "
         set_color a500a5
         printf "(vpn)"
         set_color normal
-        printf "> "
-    else
-        printf "# > "
     end
+
+    printf "> "
 end
 
 ##
