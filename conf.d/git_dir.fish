@@ -11,6 +11,22 @@ function check_and_setup_git_directory
         function fetch      --wraps "git fetch";    git fetch $argv; end
         function stash      --wraps "git stash";    git stash $argv; end
         function add        --wraps "git add";      git add $argv; end
+
+        function visit
+            if [ (count $argv) = 0 ]
+                set remote "origin"
+            else
+               set remote "$argv[1]"
+            end
+
+            set -l url (git remote get-url $remote 2>/dev/null)
+            set -l url (__git_url_convert "$url")
+            if [ $status = 0 ]
+                xdg-open "$url" >/dev/null 2>&1
+            else
+                echo "エーラー: git repository has no remote '$remote'" >&2
+            end
+        end
     else
         functions --erase commit
         functions --erase checkout
@@ -19,5 +35,6 @@ function check_and_setup_git_directory
         functions --erase fetch
         functions --erase stash
         functions --erase add
+        functions --erase visit
     end
 end

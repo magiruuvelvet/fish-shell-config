@@ -12,16 +12,21 @@ source /etc/fish/conf.d/enhancd.fish
 
 # checks if a given string ends with another string
 function string_ends_with
-    string match -i --regex '^.*\.'"$argv[2]"'$' "$argv[1]" 2>&1 >/dev/null
+    string match -i --regex '^.*'"$argv[2]"'$' "$argv[1]" >/dev/null 2>&1
+end
+
+# checks if a given string starts with another string
+function string_starts_with
+    string match -i --regex '^'"$argv[2]"'.*$' "$argv[1]" >/dev/null 2>&1
 end
 
 # custom command not found handler
 function __fish_command_not_found_handler --on-event fish_command_not_found
 
     # open audio and video files directly in mpv in current working directory
-    if string_ends_with "$argv[1]" mkv; or \
-       string_ends_with "$argv[1]" flac; or \
-       string_ends_with "$argv[1]" wav
+    if string_ends_with "$argv[1]" '\.mkv'; or \
+       string_ends_with "$argv[1]" '\.flac'; or \
+       string_ends_with "$argv[1]" '\.wav'
         mpv $argv
 
     # command not found
@@ -29,6 +34,9 @@ function __fish_command_not_found_handler --on-event fish_command_not_found
         echo "$argv[1]: コマンドが見つかりません" >&2
     end
 end
+
+# load more extensions (with deps to the above)
+source /etc/fish/conf.d/git.fish
 
 # load prompt
 source /etc/fish/conf.d/prompt.fish
