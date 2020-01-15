@@ -5,3 +5,6 @@ function su
     set -x FISH_SU true
     command su $argv
 end
+
+# load all completions
+source /etc/fish/completions/*.fish

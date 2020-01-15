@@ -4,6 +4,7 @@
 
 # prompt dependencies
 source /etc/fish/conf.d/enry.fish
+source /etc/fish/conf.d/xdg.fish
 
 # delete prompt pwd limit
 set -g fish_prompt_pwd_dir_length 0
@@ -57,7 +58,7 @@ function fish_prompt_header
     set -l prompt_len (math 15+$FISH_HEADER_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
 
     # prompt header begin - contains redraw glitch fix
-    printf "          \n#───[ "
+    printf "          \n┌───[ "
 
     # print full username with hostname
     printf $FISH_HEADER_USERNAME
@@ -89,7 +90,7 @@ end
 ## Prompt working directory stats
 ##
 function fish_prompt_directory_stats
-    printf "# "
+    printf "│ "
 
     # print last exit status
     printf "["
@@ -156,7 +157,7 @@ set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 0
 function fish_prompt_git_monitor
 
     # print that prompt is inside a git repository
-    printf "# "
+    printf "│ "
     set_color cccccc
     printf "git:"
     set_color normal
@@ -295,6 +296,20 @@ function fish_prompt_git_monitor
     end
 end
 
+## show last downloaded file
+function fish_prompt_xdg_download_info
+    # get latest modified file
+    set -l last_download (ls -t | head -1)
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (/usr/local/lib/bashrc-tools/strcolumns "$last_download")
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+18)
+
+    printf "│ "
+    set_color cccccc
+    printf "最新のファイル:"
+    set_color normal
+    printf " $last_download"
+end
+
 ## main extra function
 function fish_prompt_extras
     set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 2
@@ -310,9 +325,12 @@ function fish_prompt_extras
     if git_is_repo
         fish_prompt_git_monitor
 
+    else if dir_is_xdg_download
+        fish_prompt_xdg_download_info
+
     # default, no extras found for directory
     else
-        printf "# "
+        printf "│ "
     end
 
     # fill width
@@ -334,12 +352,11 @@ end
 ## Prompt Input Line
 ##
 function fish_prompt_input_line
-    printf "# "
+    printf "└─"
 
+    set -l prompt_input_line_end "# "
     if [ "$FISH_CONFIG_WHOAMI" = "root" ]
-        set_color b60000
-        printf "(root)"
-        set_color normal
+        set prompt_input_line_end (printf "\e[1m\e[38;2;182;0;0m\$\e[0m ")
     end
 
     if [ ! -z "$VPNSHELL" ]
@@ -348,7 +365,7 @@ function fish_prompt_input_line
         set_color normal
     end
 
-    printf "> "
+    printf "$prompt_input_line_end"
 end
 
 ##

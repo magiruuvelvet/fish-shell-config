@@ -10,6 +10,7 @@ function check_and_setup_git_directory
         function push       --wraps "git push";     git push $argv; end
         function fetch      --wraps "git fetch";    git fetch $argv; end
         function stash      --wraps "git stash";    git stash $argv; end
+        function add        --wraps "git add";      git add $argv; end
     else
         functions --erase commit
         functions --erase checkout
@@ -17,5 +18,6 @@ function check_and_setup_git_directory
         functions --erase push
         functions --erase fetch
         functions --erase stash
+        functions --erase add
     end
 end
