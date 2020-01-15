@@ -5,6 +5,7 @@
 # prompt dependencies
 source /etc/fish/conf.d/enry.fish
 source /etc/fish/conf.d/xdg.fish
+source /etc/fish/conf.d/dirs.fish
 
 # delete prompt pwd limit
 set -g fish_prompt_pwd_dir_length 0
@@ -314,28 +315,36 @@ function fish_prompt_xdg_download_info
     printf " $last_download"
 end
 
+## print ssh keygen command
+function fish_prompt_ssh_info
+    printf "│ "
+    set_color 282828
+    set -l info_line "[SSH] generate new key: 'ssh-keygen -f name -t rsa -b 4096'"
+    printf "$info_line"
+    set_color normal
+
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math (string length $info_line)+2)
+end
+
 ## main extra function
 function fish_prompt_extras
     set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 2
 
-    # check if directory changed
+    # check if directory changed and reset directory states
     if [ "$FISH_PREVIOUS_DIRECTORY" != (prompt_pwd) ]
         set FISH_PREVIOUS_DIRECTORY (prompt_pwd)
         set FISH_PROMPT_LAST_LANGUAGE ""
         set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
     end
 
-    # git repository
-    if git_is_repo
-        fish_prompt_git_monitor
-
-    else if dir_is_xdg_download
-        fish_prompt_xdg_download_info
-
-    # default, no extras found for directory
-    else
-        printf "│ "
-    end
+    # git repository: show git monitoring prompt
+    if git_is_repo; fish_prompt_git_monitor
+    # download directory: show last downloaded file for copy paste
+    else if dir_is_xdg_download; fish_prompt_xdg_download_info
+    # ssh config directory: print command how to generate a new key
+    else if dir_is_ssh_config; fish_prompt_ssh_info
+    # default: no extras found for directory
+    else; printf "│ "; end
 
     # fill width
     set -l tty_len (string length $FISH_CURRENT_TTY)
