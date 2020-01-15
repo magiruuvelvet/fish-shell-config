@@ -8,6 +8,7 @@ function fish_greeting; end
 # load custom extensions
 source /etc/fish/conf.d/exit_status.fish
 source /etc/fish/conf.d/git_dir.fish
+source /etc/fish/conf.d/enhancd.fish
 
 # checks if a given string ends with another string
 function string_ends_with
