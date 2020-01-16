@@ -92,3 +92,17 @@ function clear
     "$FISH_REAL_CLEAR"
     printf "\e[3J"
 end
+
+# clears the entire command line
+function __clear_commandline
+    commandline ""
+end
+
+# full clear and repaint
+function __clear_full
+    commandline ""
+    echo -e "\033c\e[3J"
+    "$FISH_REAL_CLEAR"
+    printf "\e[3J"
+    commandline -f repaint
+end

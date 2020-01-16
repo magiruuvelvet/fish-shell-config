@@ -120,7 +120,10 @@ end
 
 # custom keybindings
 function fish_user_key_bindings
-    #bind \cl clear
+    bind \cl __clear_full        # Ctrl+L ("clear" command, but as keyboard shortcut)
+
+    bind \cc __clear_commandline # Ctrl+C
+    bind \cu __clear_commandline # Ctrl+U
 end
 
 # su wrapper with fish fork hint
