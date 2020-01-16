@@ -65,6 +65,25 @@ function fish_prompt
     check_and_setup_git_directory
 end
 
+# function fish_right_prompt
+# end
+
+# function fish_prompt_preexec --on-event fish_preexec
+# end
+
+function fish_prompt_postexec --on-event fish_postexec
+    set -l index 1
+    set -l command_length 0
+    for char in (echo "$argv[1]" | string split "")
+        if [ "$char" = " " ]
+            set command_length (math $index - 1)
+            break
+        end
+        set index (math $index + 1)
+    end
+    set -g last_command (string sub "$argv[1]" -l $command_length)
+end
+
 # custom keybindings
 function fish_user_key_bindings
     #bind \cl clear

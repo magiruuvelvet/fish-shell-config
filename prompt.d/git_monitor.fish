@@ -125,7 +125,7 @@ function fish_prompt_git_monitor
             printf " "
         end
 
-        # disabled: show most used programming language
-        #enry_get_language
+        # show most used programming language
+        enry_get_language
     end
 end
