@@ -1,12 +1,9 @@
 # plugins
 /functions
+/bin
 
-# programming language determination
-# contains sensitive data, hence ignored
-/conf.d/enry.fish
-/enry
+# private files
+/private
 
 # other
 /git-commit
-/conf.d/accesspoint.fish
-/conf.d/aliases.fish

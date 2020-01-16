@@ -2,11 +2,6 @@
 ## Prompt
 ##
 
-# prompt dependencies
-#source /etc/fish/conf.d/enry.fish
-source /etc/fish/conf.d/xdg.fish
-source /etc/fish/conf.d/dirs.fish
-
 # delete prompt pwd limit
 set -g fish_prompt_pwd_dir_length 0
 
@@ -323,8 +318,7 @@ function fish_prompt_extras
     # check if directory changed and reset directory states
     if [ "$FISH_PREVIOUS_DIRECTORY" != (prompt_pwd) ]
         set FISH_PREVIOUS_DIRECTORY (prompt_pwd)
-        #set FISH_PROMPT_LAST_LANGUAGE ""
-        #set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
+        #enry_reset_state
     end
 
     # git repository: show git monitoring prompt
@@ -338,15 +332,10 @@ function fish_prompt_extras
 
     # fill width
     set -l tty_len (string length $FISH_CURRENT_TTY)
-    # add when using enry: -$FISH_PROMPT_LAST_LANGUAGE_LENGTH
-    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$tty_len-2) " "
+    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$tty_len-2-$FISH_PROMPT_LAST_LANGUAGE_LENGTH) " "
 
     # disabled: print detected programming language
-    #if [ "$FISH_PROMPT_LAST_LANGUAGE" != "" -a "$FISH_PROMPT_LAST_LANGUAGE" != "(to)" ]
-    #    printf "["
-    #    enry_print_language "$FISH_PROMPT_LAST_LANGUAGE"
-    #    printf "]─"
-    #end
+    #enry_print_language
 
     # print current tty
     printf "[$FISH_CURRENT_TTY]─┘\n"
