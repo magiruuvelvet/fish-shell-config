@@ -3,7 +3,7 @@
 ##
 
 # prompt dependencies
-source /etc/fish/conf.d/enry.fish
+#source /etc/fish/conf.d/enry.fish
 source /etc/fish/conf.d/xdg.fish
 source /etc/fish/conf.d/dirs.fish
 
@@ -150,8 +150,6 @@ end
 ##
 ## Prompt Extras
 ##
-set FISH_PROMPT_LAST_LANGUAGE ""
-set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
 set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 0
 
 ## git monitor
@@ -281,19 +279,11 @@ function fish_prompt_git_monitor
             printf " "
         end
 
-        # show most used programming language
-        if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
-            # don't compute language on huge repositories, use predefined key value pair
-            enry_check_cached (prompt_pwd)
-            if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
-                set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "/etc/fish/enry" | head -1 | awk '{print $2}')
-                if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
-                    set FISH_PROMPT_LAST_LANGUAGE "(to)"
-                else
-                    set FISH_PROMPT_LAST_LANGUAGE_LENGTH (math (string length $FISH_PROMPT_LAST_LANGUAGE)+3)
-                end
-            end
-        end
+        # disabled: show most used programming language
+        #enry_get_language
+
+        # detect build system of repository and show it
+        # TODO
     end
 end
 
@@ -333,8 +323,8 @@ function fish_prompt_extras
     # check if directory changed and reset directory states
     if [ "$FISH_PREVIOUS_DIRECTORY" != (prompt_pwd) ]
         set FISH_PREVIOUS_DIRECTORY (prompt_pwd)
-        set FISH_PROMPT_LAST_LANGUAGE ""
-        set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
+        #set FISH_PROMPT_LAST_LANGUAGE ""
+        #set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
     end
 
     # git repository: show git monitoring prompt
@@ -348,14 +338,15 @@ function fish_prompt_extras
 
     # fill width
     set -l tty_len (string length $FISH_CURRENT_TTY)
-    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$tty_len-2-$FISH_PROMPT_LAST_LANGUAGE_LENGTH) " "
+    # add when using enry: -$FISH_PROMPT_LAST_LANGUAGE_LENGTH
+    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$tty_len-2) " "
 
-    # print extras
-    if [ "$FISH_PROMPT_LAST_LANGUAGE" != "" -a "$FISH_PROMPT_LAST_LANGUAGE" != "(to)" ]
-        printf "["
-        enry_print_language "$FISH_PROMPT_LAST_LANGUAGE"
-        printf "]─"
-    end
+    # disabled: print detected programming language
+    #if [ "$FISH_PROMPT_LAST_LANGUAGE" != "" -a "$FISH_PROMPT_LAST_LANGUAGE" != "(to)" ]
+    #    printf "["
+    #    enry_print_language "$FISH_PROMPT_LAST_LANGUAGE"
+    #    printf "]─"
+    #end
 
     # print current tty
     printf "[$FISH_CURRENT_TTY]─┘\n"
