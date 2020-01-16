@@ -1,7 +1,5 @@
 function map_exit_status_to_signal_name
-    set -l exit_status "$argv[1]"
-
-    switch $exit_status
+    switch "$argv[1]"
         case 126; echo EXEC
         case 127; echo CNF
         case 128; echo EXIT
@@ -35,6 +33,6 @@ function map_exit_status_to_signal_name
         case 156; echo SIGWINCH
         case 157; echo SIGIO
         case 158; echo SIGPWR
-        case \*; echo $exit_status
+        case \*; echo "$argv[1]"
     end
 end

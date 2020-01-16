@@ -3,7 +3,7 @@
 ##
 
 set -gx ENHANCD_ROOT "/etc/fish/functions/enhancd"
-set -gx ENHANCD_DIR "/tmp/.fish/enhancd-"(whoami)
+set -gx ENHANCD_DIR "$HOME/.enhancd"
 
 set -gx ENHANCD_FILTER "fzy"
 set -gx ENHANCD_COMMAND "cd"

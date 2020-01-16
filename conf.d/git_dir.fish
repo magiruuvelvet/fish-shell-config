@@ -19,7 +19,7 @@ function check_and_setup_git_directory
                set remote "$argv[1]"
             end
 
-            set -l url (git remote get-url $remote 2>/dev/null)
+            set -l url (git remote get-url "$remote" 2>/dev/null)
             set -l url (__git_url_convert "$url")
             if [ $status = 0 ]
                 xdg-open "$url" >/dev/null 2>&1
