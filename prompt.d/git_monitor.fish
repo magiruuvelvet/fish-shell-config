@@ -35,11 +35,20 @@ function fish_prompt_git_monitor
         # print remote branch difference
         set pushable (git status | grep ahead | grep -o -E '[0-9]+ commit(s?)' | awk '{ print $1 }')
         set pullable (git status | grep behind | grep -o -E '[0-9]+ commit(s?)' | awk ' { print $1 }')
+
         if [ "$pushable" = "" ]
-            set pushable 0
+            # get diverged count on empty difference
+            set pushable (git status | grep -A 1 diverged | tail -1 | awk '{ print $3 }')
+            if [ "$pushable" = "" ]
+                set pushable 0
+            end
         end
         if [ "$pullable" = "" ]
-            set pullable 0
+            # get diverged count on empty difference
+            set pullable (git status | grep -A 1 diverged | tail -1 | awk '{ print $5 }')
+            if [ "$pullable" = "" ]
+                set pullable 0
+            end
         end
 
         set -l git_stats "$pushable↑$pullable↓"
