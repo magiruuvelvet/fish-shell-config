@@ -20,7 +20,7 @@ function enry_get_language
         enry_check_cached (prompt_pwd)
 
         if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
-            set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "/etc/fish/bin//enry" | head -1 | awk '{print $2}')
+            set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "/etc/fish/bin/enry" | head -1 | awk '{print $2}')
             if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
                 set FISH_PROMPT_LAST_LANGUAGE "(to)"
             else
