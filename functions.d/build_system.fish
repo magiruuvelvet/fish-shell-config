@@ -7,6 +7,7 @@ function detect_build_system
     if [ -f "CMakeLists.txt" ]; echo "CMake"
     # todo: *.pro -> QMake
     else if [ -f "wscript" ]; echo "Waf"
+    else if [ -f "meson.build" ]; echo "Meson"
 
     else if [ -f "build.gradle" ]; echo "Gradle"
     else if [ -f "pom.xml" ]; echo "Maven"
