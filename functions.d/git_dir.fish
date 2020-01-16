@@ -11,6 +11,8 @@ function check_and_setup_git_directory
         function fetch      --wraps "git fetch";    git fetch $argv; end
         function stash      --wraps "git stash";    git stash $argv; end
         function add        --wraps "git add";      git add $argv; end
+        function branch     --wraps "git branch";   git branch $argv; end
+        function sdiff      --wraps "git sdiff";    git sdiff $argv; end
 
         function visit
             if [ (count $argv) = 0 ]
@@ -35,6 +37,8 @@ function check_and_setup_git_directory
         functions --erase fetch
         functions --erase stash
         functions --erase add
+        functions --erase branch
+        functions --erase sdiff
         functions --erase visit
     end
 end

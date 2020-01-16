@@ -1,7 +1,4 @@
-# This file contains fish universal variable definitions.
-# VERSION: 3.0
-SETUVAR __fish_init_2_3_0:\x1d
-SETUVAR __fish_init_3_x:\x1d
+# default colors, copy to ~/.config/fish/fish_variables
 SETUVAR fish_color_autosuggestion:normal\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:normal
@@ -25,6 +22,7 @@ SETUVAR fish_color_user:normal
 SETUVAR fish_color_valid_path:
 SETUVAR fish_greeting:
 SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:334238
 SETUVAR fish_pager_color_prefix:normal
 SETUVAR fish_pager_color_progress:334238

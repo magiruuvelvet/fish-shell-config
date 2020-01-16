@@ -2,6 +2,8 @@
 ## Fish Config
 ##
 
+set -gx SHELL /bin/fish
+
 # note: fish autoloads everything in conf.d/
 #       which breaks my overengineered prompt :(
 #       use custom directories instead
@@ -39,6 +41,8 @@ source /etc/fish/functions.d/git_dir.fish
 source /etc/fish/functions.d/git.fish
 source /etc/fish/functions.d/language_color.fish
 source /etc/fish/functions.d/xdg.fish
+
+thefuck --alias f | source
 
 # custom command not found handler
 function __fish_command_not_found_handler --on-event fish_command_not_found
@@ -99,7 +103,20 @@ function fish_prompt_postexec --on-event fish_postexec
         set index (math $index + 1)
     end
     set -g last_command (string sub "$argv[1]" -l $command_length)
+
+    if functions -q last_command_handler
+        last_command_handler "$argv"
+    end
 end
+
+# function __trigger_prompt_sync --on-event fish_prompt
+#     set -U __prompt_sync $PWD
+# end
+#
+# function __prompt_sync --on-variable __prompt_sync
+#     test $PWD = $__prompt_sync; or return
+#     commandline -f repaint
+# end
 
 # custom keybindings
 function fish_user_key_bindings
