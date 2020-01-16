@@ -61,6 +61,14 @@ function fish_prompt
     # store last application exit status
     set -g last_status $status
 
+    # reload current directory and print a warning when it was deleted
+    builtin cd . >/dev/null 2>&1
+    if [ $status != 0 ]
+        set_color --bold f90004
+        echo -e "\n warning: directory deleted! executing commands may cause undefined behavior."
+        set_color normal
+    end
+
     # reset terminal to previous state
     # (for broken applications which don't clean up
     #  their escape sequences or do weird things to

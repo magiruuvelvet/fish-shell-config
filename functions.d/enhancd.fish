@@ -36,3 +36,7 @@ eval "alias $ENHANCD_COMMAND 'enhancd'"
 
 # go back with selection
 alias ...='enhancd ...'
+
+# navigation shortcuts
+alias .='cd .'     # "." is deprecated in fish and scheduled for deletion in a future release
+alias ..='cd ..'   # works without alias in fish, but make sure the cd command is explicitly used
