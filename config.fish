@@ -20,6 +20,15 @@ function string_starts_with
     string match -i --regex '^'"$argv[2]"'.*$' "$argv[1]" >/dev/null 2>&1
 end
 
+# sources an entire directory tree of .fish scripts
+function source_recursive
+    if [ -d "$argv[1]" ]
+        for file in (find "$argv[1]" -type f -iname '*.fish')
+            source "$file"
+        end
+    end
+end
+
 # load custom extensions
 source /etc/fish/functions.d/build_system.fish
 source /etc/fish/functions.d/dirs.fish
@@ -97,8 +106,9 @@ function su
 end
 
 # load private configurations
-source /etc/fish/private/accesspoint.fish
-source /etc/fish/private/aliases.fish
+if [ -d /etc/fish/private ]
+    source_recursive /etc/fish/private
+end
 
 # load all completions
 source /etc/fish/completions/wrapper_commands.fish
