@@ -21,6 +21,7 @@ function string_starts_with
 end
 
 # load custom extensions
+source /etc/fish/functions.d/build_system.fish
 source /etc/fish/functions.d/dirs.fish
 source /etc/fish/functions.d/enhancd.fish
 source /etc/fish/functions.d/enry.fish
