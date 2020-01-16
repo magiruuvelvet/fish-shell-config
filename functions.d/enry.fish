@@ -11,8 +11,9 @@ set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
 # get most used programming language
 function enry_get_language
     if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
-        # don't compute language on huge repositories, use predefined key value pair
+        # don't compute language on huge repositories, use predefined key value pairs
         enry_check_cached (prompt_pwd)
+
         if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
             set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "/etc/fish/bin//enry" | head -1 | awk '{print $2}')
             if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]

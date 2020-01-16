@@ -3,8 +3,11 @@
 ##
 
 # note: fish autoloads everything in conf.d/
+#       which breaks my overengineered prompt :(
+#       use custom directories instead
+# note 2: wildcard sourcing doesn't seem to work
 
-# disable welcome message
+# disable welcome message (may be useful though for SSH when I install fish on my servers)
 function fish_greeting; end
 
 # checks if a given string ends with another string
@@ -45,9 +48,19 @@ end
 # load prompt
 source /etc/fish/prompt.d/prompt.fish
 function fish_prompt
+    # store last application exit status
     set -g last_status $status
-    printf "\033[0m\033[?25h" # reset terminal
+
+    # reset terminal to previous state
+    # (for broken applications which don't clean up
+    #  their escape sequences or do weird things to
+    #  the terminal emulator and forgot to restore them)
+    printf "\033[0m\033[?25h"
+
+    # main prompt function
     fish_load_custom_prompt
+
+    # prompt post processing
     check_and_setup_git_directory
 end
 

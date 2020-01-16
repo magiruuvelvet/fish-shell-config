@@ -11,7 +11,7 @@ function print_language_colored
     else if [ "$argv[1]" = "CMake" ]
         set_color --bold cccccc
     else if [ "$argv[1]" = "JavaScript" ]
-        set_color --bold cabb4b #f1e05a
+        set_color --bold cabb4b # -> f1e05a (not readable on light background)
     else if [ "$argv[1]" = "TypeScript" ]
         set_color --bold 2b7489
     else if [ "$argv[1]" = "Ruby" ]
