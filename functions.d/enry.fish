@@ -2,13 +2,21 @@
 ## Enry
 ##
 
-# toggle to set enry state
-set -g enry_enabled 0
+function enry-enable
+    set -g enry_enabled 1
+    source /etc/fish/functions.d/enry.fish
+end
 
+function enry-disable
+    set -g enry_enabled 0
+    source /etc/fish/functions.d/enry.fish
+end
+
+# state variables for enry
 set FISH_PROMPT_LAST_LANGUAGE ""
 set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
 
-if [ $enry_enabled = 1 ] # enry enabled block BEGIN
+if [ "$enry_enabled" = 1 ] # enry enabled block BEGIN
 
 # contains the enry_check_cached function
 source /etc/fish/private/enry_config.fish
@@ -47,7 +55,7 @@ end
 
 else # enry enabled block END
 
-# stub function when enry is disabled
+# stub functions when enry is disabled
 function enry_get_language; end
 function enry_print_language; end
 function enry_reset_state; end
