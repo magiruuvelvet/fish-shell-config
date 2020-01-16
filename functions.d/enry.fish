@@ -2,6 +2,9 @@
 ## Enry
 ##
 
+# contains the enry_check_cached function and user settings
+source /etc/fish/private/enry_config.fish
+
 function enry-enable
     set -g enry_enabled 1
     source /etc/fish/functions.d/enry.fish
@@ -16,10 +19,12 @@ end
 set FISH_PROMPT_LAST_LANGUAGE ""
 set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
 
-if [ "$enry_enabled" = 1 ] # enry enabled block BEGIN
+# check if a custom cache function was defined
+if ! functions -q enry_check_cached
+    function enry_check_cached; end
+end
 
-# contains the enry_check_cached function
-source /etc/fish/private/enry_config.fish
+if [ "$enry_enabled" = 1 ] # enry enabled block BEGIN
 
 # get most used programming language
 function enry_get_language
