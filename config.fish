@@ -42,7 +42,6 @@ source /etc/fish/functions.d/dirs.fish
 source /etc/fish/functions.d/enhancd.fish
 source /etc/fish/functions.d/enry.fish
 source /etc/fish/functions.d/exit_status.fish
-source /etc/fish/functions.d/git_dir.fish
 source /etc/fish/functions.d/git.fish
 source /etc/fish/functions.d/language_color.fish
 source /etc/fish/functions.d/xdg.fish
@@ -100,7 +99,7 @@ function fish_prompt
     fish_load_custom_prompt
 
     # prompt post processing
-    check_and_setup_git_directory
+    __check_and_setup_git_directory
 end
 
 # function fish_right_prompt

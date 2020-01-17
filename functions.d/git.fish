@@ -1,6 +1,36 @@
-##
-## visit git repositories in the default web browser
-##
+# git directory features
+function __check_and_setup_git_directory
+    if git_is_repo
+        function commit     --wraps "git commit";   git commit $argv; end
+        function checkout   --wraps "git checkout"; git checkout $argv; end
+        function pull       --wraps "git pull";     git pull $argv; end
+        function push       --wraps "git push";     git push $argv; end
+        function fetch      --wraps "git fetch";    git fetch $argv; end
+        function stash      --wraps "git stash";    git stash $argv; end
+        function add        --wraps "git add";      git add $argv; end
+        function branch     --wraps "git branch";   git branch $argv; end
+        function sdiff      --wraps "git sdiff";    git sdiff $argv; end
+        function diff       --wraps "git diff";     git diff $argv; end
+        function tag        --wraps "git tag";      git tag $argv; end
+        function stag       --wraps "git stag";     git stag $argv; end
+        function ls-files   --wraps "git ls-files"; git ls-files $argv; end
+        function remote     --wraps "git remote";   git remote $argv; end
+        function visit;                           __git_url_visit $argv; end
+    else
+        functions --erase commit
+        functions --erase checkout
+        functions --erase pull
+        functions --erase push
+        functions --erase fetch
+        functions --erase stash
+        functions --erase add
+        functions --erase branch
+        functions --erase sdiff
+        functions --erase diff
+        functions --erase ls-files
+        functions --erase visit
+    end
+end
 
 # normalize git url to http
 function __git_url_convert
@@ -37,5 +67,22 @@ function __git_url_convert
         # print url
         echo "https://$domain/$remaining_url"
         return 0
+    end
+end
+
+# visit git repositories in the default web browser
+function __git_url_visit
+    if [ (count $argv) = 0 ]
+        set remote "origin"
+    else
+        set remote "$argv[1]"
+    end
+
+    set -l url (git remote get-url "$remote" 2>/dev/null)
+    set -l url (__git_url_convert "$url")
+    if [ $status = 0 ]
+        xdg-open "$url" >/dev/null 2>&1
+    else
+        echo "エーラー: git repository has no remote '$remote'" >&2
     end
 end
