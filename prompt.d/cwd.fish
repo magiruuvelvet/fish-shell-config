@@ -23,7 +23,7 @@ function fish_prompt_directory_stats
     printf $last_status
 
     set_color normal
-    printf "] CWD["
+    printf "]["
 
     # print number of files
     set -l cwd_inode_count (__fish_prompt_get_pwd_inodes)
@@ -51,7 +51,7 @@ function fish_prompt_directory_stats
     set -l pwd_length (/usr/local/lib/bashrc-tools/strcolumns (prompt_pwd))
 
     # total line length by now
-    set -l line_len (math $cwd_inode_count+$cwd_invisible_inode_count+$pwd_length+$last_status_len+12+1)
+    set -l line_len (math $cwd_inode_count+$cwd_invisible_inode_count+$pwd_length+$last_status_len+9)
 
     fill_width (math $COLUMNS-$line_len) " "
 
