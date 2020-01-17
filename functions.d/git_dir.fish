@@ -13,6 +13,7 @@ function check_and_setup_git_directory
         function add        --wraps "git add";      git add $argv; end
         function branch     --wraps "git branch";   git branch $argv; end
         function sdiff      --wraps "git sdiff";    git sdiff $argv; end
+        function diff       --wraps "git diff";     git diff $argv; end
 
         function visit
             if [ (count $argv) = 0 ]
@@ -40,5 +41,6 @@ function check_and_setup_git_directory
         functions --erase branch
         functions --erase sdiff
         functions --erase visit
+        functions --erase diff
     end
 end
