@@ -30,15 +30,15 @@ function fish_prompt_extras
     # git repository: show git monitoring prompt
     if git_is_repo; fish_prompt_git_monitor
     # download directory: show last downloaded file for copy paste
-    else if dir_is_xdg_download; fish_prompt_xdg_download_info
+    else if __dir_is_xdg_download; __fish_prompt_xdg_download_info
     # ssh config directory: print command how to generate a new key
-    else if dir_is_ssh_config; fish_prompt_ssh_info
+    else if __dir_is_ssh_config; __fish_prompt_ssh_info
     # default: no extras found for directory
     else; printf "│ "; end
 
     # detect build system of current directory and show it
     # looks for the existence of specific files
-    set -l build_system (detect_build_system)
+    set -l build_system (__detect_build_system)
     set -l build_system_len (math (string length $build_system) + 3)
     [ "$build_system" = "" ] && set build_system_len 0
 
@@ -50,7 +50,7 @@ function fish_prompt_extras
     enry_print_language
 
     # print the detected build system
-    print_build_system "$build_system"
+    __print_build_system "$build_system"
 
     # print current tty
     printf "[$FISH_CURRENT_TTY]─┘\n"
@@ -79,7 +79,7 @@ end
 ##
 ## Prompt Main Function
 ##
-function fish_load_custom_prompt
+function fish_prompt_main
     fish_prompt_header
     fish_prompt_directory_stats
     fish_prompt_extras

@@ -10,7 +10,7 @@ set FISH_CONFIG_HOSTNAME_LENGTH (string length "$FISH_CONFIG_HOSTNAME")
 set FISH_REAL_CLEAR (which clear)
 set FISH_CURRENT_TTY (tty | sed 's/^\/dev\///')
 
-function fish_prompt_header_username_setter
+function __fish_prompt_header_username_setter
     if [ "$FISH_CONFIG_WHOAMI" = "root" ]
         echo ""
     else
@@ -18,7 +18,7 @@ function fish_prompt_header_username_setter
     end
 end
 
-set FISH_HEADER_USERNAME (fish_prompt_header_username_setter)
+set FISH_HEADER_USERNAME (__fish_prompt_header_username_setter)
 set FISH_HEADER_USERNAME_LENGTH (/usr/local/lib/bashrc-tools/strcolumns "$FISH_HEADER_USERNAME")
 
 set FISH_PREVIOUS_DIRECTORY ""
@@ -36,9 +36,9 @@ function fill_width
 end
 
 # get number of files in current directory
-function fish_promp_get_pwd_inodes
+function __fish_prompt_get_pwd_inodes
     echo (ls | wc -l | tr -d '[:blank:]')
 end
-function fish_promp_get_pwd_inodes_all
+function __fish_prompt_get_pwd_inodes_all
     echo (ls -A | wc -l | tr -d '[:blank:]')
 end

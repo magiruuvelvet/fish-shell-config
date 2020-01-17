@@ -3,7 +3,7 @@
 ##
 
 # changing this variable hot reloads currently running fish shells on "fish_prompt"
-set -g fish_config_revision "25.1"
+set -g fish_config_revision "26.1"
 
 # TODO: "exec fish" not working in here, prints error about tty is 0x0 in size
 function __fish_config_reload_if_different

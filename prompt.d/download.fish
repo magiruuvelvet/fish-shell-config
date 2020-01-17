@@ -1,5 +1,5 @@
 ## show last downloaded file
-function fish_prompt_xdg_download_info
+function __fish_prompt_xdg_download_info
     # get latest modified file
     set -l last_download (string trim (ls --color=always -t | head -1))
     # filter ANSI escape sequences

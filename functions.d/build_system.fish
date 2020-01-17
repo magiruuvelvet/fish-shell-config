@@ -2,7 +2,7 @@
 ## detect build system by looking for specific files
 ##
 
-function detect_build_system
+function __detect_build_system
 
     if [ -f "CMakeLists.txt" ]; echo "CMake"
     # todo: *.pro -> QMake
@@ -28,10 +28,10 @@ function detect_build_system
     end
 end
 
-function print_build_system
+function __print_build_system
     if [ (string length "$argv[1]") != 0 ]
         printf "["
-        print_language_colored "$argv[1]"
+        __print_language_colored "$argv[1]"
         printf "]─"
     end
 end

@@ -1,4 +1,4 @@
-function map_exit_status_to_signal_name
+function __map_exit_status_to_signal_name
     switch "$argv[1]"
         case 126; echo EXEC
         case 127; echo CNF

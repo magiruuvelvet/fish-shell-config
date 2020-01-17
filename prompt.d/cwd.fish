@@ -18,7 +18,7 @@ function fish_prompt_directory_stats
         set_color -b b218b2
         set_color ffffff
     end
-    set -l last_status (map_exit_status_to_signal_name $last_status)
+    set -l last_status (__map_exit_status_to_signal_name $last_status)
     set -l last_status_len (string length $last_status)
     printf $last_status
 
@@ -26,8 +26,8 @@ function fish_prompt_directory_stats
     printf "] CWD["
 
     # print number of files
-    set -l cwd_inode_count (fish_promp_get_pwd_inodes)
-    set -l cwd_invisible_inode_count (math (fish_promp_get_pwd_inodes_all)-$cwd_inode_count)
+    set -l cwd_inode_count (__fish_prompt_get_pwd_inodes)
+    set -l cwd_invisible_inode_count (math (__fish_prompt_get_pwd_inodes_all)-$cwd_inode_count)
 
     printf $cwd_inode_count
     set -l cwd_inode_count (string length $cwd_inode_count)

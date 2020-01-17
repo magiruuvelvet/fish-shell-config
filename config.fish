@@ -28,7 +28,7 @@ function string_starts_with
 end
 
 # sources an entire directory tree of .fish scripts
-function source_recursive
+function source-recursive
     if [ -d "$argv[1]" ]
         for file in (find "$argv[1]" -type f -iname '*.fish')
             source "$file"
@@ -96,7 +96,7 @@ function fish_prompt
     __fish_config_reload_if_different
 
     # main prompt function
-    fish_load_custom_prompt
+    fish_prompt_main
 
     # prompt post processing
     __check_and_setup_git_directory
@@ -120,8 +120,8 @@ function fish_prompt_postexec --on-event fish_postexec
     end
     set -g last_command (string sub "$argv[1]" -l $command_length)
 
-    if functions -q last_command_handler
-        last_command_handler "$argv"
+    if functions -q __last_command_handler
+        __last_command_handler "$argv"
     end
 end
 
@@ -151,7 +151,7 @@ end
 
 # load private configurations
 if [ -d /etc/fish/private ]
-    source_recursive /etc/fish/private
+    source-recursive /etc/fish/private
 end
 
 # load all completions

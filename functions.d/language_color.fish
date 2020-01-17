@@ -3,7 +3,7 @@
 ## colors were taken from GitHub
 ##
 
-function print_language_colored
+function __print_language_colored
     if [ "$argv[1]" = "C++" ]
         set_color --bold f34b7d
     else if [ "$argv[1]" = "C" ]

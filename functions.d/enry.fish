@@ -2,7 +2,7 @@
 ## Enry
 ##
 
-# contains the enry_check_cached function and user settings
+# contains the __enry_check_cached function and user settings
 source /etc/fish/private/enry_config.fish
 
 function enry-enable
@@ -20,8 +20,8 @@ set FISH_PROMPT_LAST_LANGUAGE ""
 set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
 
 # check if a custom cache function was defined
-if ! functions -q enry_check_cached
-    function enry_check_cached; end
+if ! functions -q __enry_check_cached
+    function __enry_check_cached; end
 end
 
 if [ "$enry_enabled" = 1 ] # enry enabled block BEGIN
@@ -30,7 +30,7 @@ if [ "$enry_enabled" = 1 ] # enry enabled block BEGIN
 function enry_get_language
     if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
         # don't compute language on huge repositories, use predefined key value pairs
-        enry_check_cached (prompt_pwd)
+        __enry_check_cached (prompt_pwd)
 
         if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
             set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "/etc/fish/bin/enry" | head -1 | awk '{print $2}')
@@ -47,7 +47,7 @@ end
 function enry_print_language
     if [ "$FISH_PROMPT_LAST_LANGUAGE" != "" -a "$FISH_PROMPT_LAST_LANGUAGE" != "(to)" ]
        printf "["
-       print_language_colored "$FISH_PROMPT_LAST_LANGUAGE"
+       __print_language_colored "$FISH_PROMPT_LAST_LANGUAGE"
        printf "]─"
     end
 end
