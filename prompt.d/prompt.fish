@@ -24,7 +24,7 @@ function fish_prompt_extras
     # check if directory changed and reset directory states
     if [ "$FISH_PREVIOUS_DIRECTORY" != (prompt_pwd) ]
         set FISH_PREVIOUS_DIRECTORY (prompt_pwd)
-        enry_reset_state
+        __enry_reset_state
     end
 
     # git repository: show git monitoring prompt
@@ -47,7 +47,7 @@ function fish_prompt_extras
     fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$tty_len-2-$FISH_PROMPT_LAST_LANGUAGE_LENGTH-$build_system_len) " "
 
     # print detected programming language
-    enry_print_language
+    __enry_print_language
 
     # print the detected build system
     __print_build_system "$build_system"

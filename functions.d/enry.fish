@@ -27,7 +27,7 @@ end
 if [ "$enry_enabled" = 1 ] # enry enabled block BEGIN
 
 # get most used programming language
-function enry_get_language
+function __enry_get_language
     if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
         # don't compute language on huge repositories, use predefined key value pairs
         __enry_check_cached (prompt_pwd)
@@ -44,7 +44,7 @@ function enry_get_language
 end
 
 # print the detected language
-function enry_print_language
+function __enry_print_language
     if [ "$FISH_PROMPT_LAST_LANGUAGE" != "" -a "$FISH_PROMPT_LAST_LANGUAGE" != "(to)" ]
        printf "["
        __print_language_colored "$FISH_PROMPT_LAST_LANGUAGE"
@@ -53,7 +53,7 @@ function enry_print_language
 end
 
 # reset state on directory change
-function enry_reset_state
+function __enry_reset_state
     set FISH_PROMPT_LAST_LANGUAGE ""
     set FISH_PROMPT_LAST_LANGUAGE_LENGTH 0
 end
@@ -61,8 +61,8 @@ end
 else # enry enabled block END
 
 # stub functions when enry is disabled
-function enry_get_language; end
-function enry_print_language; end
-function enry_reset_state; end
+function __enry_get_language; end
+function __enry_print_language; end
+function __enry_reset_state; end
 
 end

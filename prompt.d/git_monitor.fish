@@ -135,6 +135,6 @@ function fish_prompt_git_monitor
         end
 
         # show most used programming language
-        enry_get_language
+        __enry_get_language
     end
 end
