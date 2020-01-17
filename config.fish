@@ -5,8 +5,9 @@
 set -gx SHELL /bin/fish
 
 # check which version the current fish instance is using
-# first number is count of git commits
-set -g fish_config_revision "23-"(date +"%Y%m%d-%H%M")
+source /etc/fish/version.fish
+# current instance version
+set -g fish_config_revision_current "$fish_config_revision"
 
 # note: fish autoloads everything in conf.d/
 #       which breaks my overengineered prompt :(
@@ -88,6 +89,10 @@ function fish_prompt
     #  their escape sequences or do weird things to
     #  the terminal emulator and forgot to restore them)
     printf "\033[0m\033[?25h"
+
+    # check version
+    source /etc/fish/version.fish
+    __fish_config_reload_if_different
 
     # main prompt function
     fish_load_custom_prompt
