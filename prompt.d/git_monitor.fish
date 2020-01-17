@@ -21,7 +21,7 @@ function fish_prompt_git_monitor
     # repository has a history
     else
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+6)
-        printf "["
+        printf "\e[1m[\e[0m"
 
         # branch name
         set -l git_stats (git_branch_name)
@@ -30,7 +30,7 @@ function fish_prompt_git_monitor
         set_color normal
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
 
-        printf "|"
+        printf "\e[1m|\e[0m"
 
         # print remote branch difference
         set pushable (git status | grep ahead | grep -o -E '[0-9]+ commit(s?)' | awk '{ print $1 }')
@@ -52,16 +52,16 @@ function fish_prompt_git_monitor
         end
 
         set -l git_stats "$pushable↑$pullable↓"
-        set_color 9118a6
+        set_color 19861d #9118a6
         printf "$pushable"
-        set_color --bold 9118a6
-        printf "↑"
-        set_color ca70ca
+        set_color --bold 19861d #9118a6
+        printf "⬆ " #"↑"
+        set_color 398ea7 #ca70ca
         printf "$pullable"
-        set_color --bold ca70ca
-        printf "↓"
+        set_color --bold 398ea7 #ca70ca
+        printf "⬇ " #"↓"
         set_color normal
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+2)
 
         # check if local and remote have a different history
         set -l git_stats (git_ahead " " " " "~" " ")
@@ -72,7 +72,7 @@ function fish_prompt_git_monitor
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
         end
 
-        printf "|"
+        printf "\e[1m|\e[0m"
 
         # short commit hash
         set -l git_stats (git rev-parse --short=7 HEAD)
@@ -81,7 +81,7 @@ function fish_prompt_git_monitor
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
         set_color normal
 
-        printf "] "
+        printf "\e[1m]\e[0m "
 
         # is dirty?
         if git_is_dirty
