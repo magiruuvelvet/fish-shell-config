@@ -79,9 +79,11 @@ function fish_prompt
     # reload current directory and print a warning when it was deleted
     builtin cd . >/dev/null 2>&1
     if [ $status != 0 ]
+        echo
         set_color --bold f90004
-        echo -e "\n warning: directory deleted! executing commands may cause undefined behavior."
+        echo -n "  warning: directory deleted! executing commands may cause undefined behavior."
         set_color normal
+        echo
     end
 
     # reset terminal to previous state
