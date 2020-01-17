@@ -4,6 +4,10 @@
 
 set -gx SHELL /bin/fish
 
+# check which version the current fish instance is using
+# first number is count of git commits
+set -g fish_config_revision "23-"(date +"%Y%m%d-%H%M")
+
 # note: fish autoloads everything in conf.d/
 #       which breaks my overengineered prompt :(
 #       use custom directories instead
@@ -64,6 +68,12 @@ source /etc/fish/prompt.d/prompt.fish
 function fish_prompt
     # store last application exit status
     set -g last_status $status
+
+    # reset status to zero when using the clear shortcut
+    if [ "$status_reset" = 1 ]
+        set -g last_status 0
+        set -g status_reset 0
+    end
 
     # reload current directory and print a warning when it was deleted
     builtin cd . >/dev/null 2>&1

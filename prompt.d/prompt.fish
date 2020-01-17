@@ -105,4 +105,5 @@ function __clear_full
     "$FISH_REAL_CLEAR"
     printf "\e[3J"
     commandline -f repaint
+    set -g status_reset 1
 end
