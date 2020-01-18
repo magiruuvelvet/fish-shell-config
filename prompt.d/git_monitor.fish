@@ -3,13 +3,12 @@ function fish_prompt_git_monitor
 
     # print that prompt is inside a git repository
     printf "│ "
-    set_color cccccc
-    printf "git:"
+    set_color b3b3b3
+    printf "git"
     set_color normal
-    printf " "
 
     # initial length
-    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 7
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 5
 
     # check if repo is empty and print it as such
     if git_is_empty
