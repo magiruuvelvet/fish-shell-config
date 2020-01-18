@@ -3,7 +3,11 @@
 ##
 
 function fish_prompt_directory_stats
-    printf "│ "
+    if [ "$FISH_CONFIG_WHOAMI" = "root" ]
+        printf "│\e[1m\e[38;2;182;0;0m▌\e[0m"
+    else
+        printf "│ "
+    end
 
     # print last exit status
     printf "["
