@@ -12,7 +12,7 @@ set -gx ENHANCD_DISABLE_HYPHEN 0
 set -gx ENHANCD_DISABLE_HOME 0
 set -gx ENHANCD_DOT_ARG "..." # ".." to just go back one level without selection
 set -gx ENHANCD_HYPHEN_ARG "-"
-set -gx ENHANCD_HYPHEN_NUM 10
+set -gx ENHANCD_HYPHEN_NUM 20
 set -gx ENHANCD_HOME_ARG ""
 set -gx ENHANCD_USE_FUZZY_MATCH 1
 

@@ -1,8 +1,9 @@
 function __map_exit_status_to_signal_name
     switch "$argv[1]"
-        case 126; echo EXEC
-        case 127; echo CNF
-        case 128; echo EXIT
+        case 125; echo EXEC         # exec error
+        case 126; echo EXEC         # not executable
+        case 127; echo CNF          # no such command
+        case 128; echo EXIT         # exit with signal + signal number
         case 129; echo SIGHUP
         case 130; echo SIGINT
         case 131; echo SIGQUIT

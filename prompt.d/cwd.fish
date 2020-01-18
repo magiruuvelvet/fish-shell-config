@@ -14,7 +14,7 @@ function fish_prompt_directory_stats
     if [ $last_status != 0 ]
         set_color b1321c
     end
-    if [ $last_status -ge 126 -a $last_status -le 128 ]
+    if [ $last_status -ge 125 -a $last_status -le 128 ]
         set_color -b 699d9d
         set_color ffffff
     end
