@@ -102,9 +102,13 @@ function fish_prompt_git_monitor
 
         # has changed files?
         if git_is_touched
-            set -l git_stats "changed"
+            set changed_files_count (git ls-files -m | wc -l)
+            set -l git_stats "changed[$changed_files_count]"
             set_color --bold b89354
-            printf $git_stats
+            printf "changed"
+            set_color normal
+            set_color b89354
+            printf "[$changed_files_count]"
             set_color normal
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
             printf " "
