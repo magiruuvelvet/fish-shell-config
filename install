@@ -1,0 +1,28 @@
+#!/usr/bin/env fish
+
+# move old fish directory out of place
+echo "Moving old fish config..."
+cd /etc
+mv fish fish.old
+
+echo "Cloning..."
+git clone https://github.com/magiruuvelvet/fish-shell-config.git fish
+
+echo "Installing plugins..."
+mkdir -p /etc/fish/functions
+cd /etc/fish/functions
+
+git clone https://github.com/fishpkg/fish-git-util.git
+git clone https://github.com/b4b4r07/enhancd.git
+
+function install
+    for file in $argv[1]/*.fish
+        ln -s "$file" (basename "$file")
+    end
+end
+
+install "fish-git-util"
+install "enhancd/functions"
+
+cd enhancd/functions
+patch -p1 < ../../install.d/enhancd-remove-debug.patch

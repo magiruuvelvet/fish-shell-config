@@ -1,0 +1,13 @@
+diff --git a/functions/_enhancd_filepath_abs.fish b/functions/_enhancd_filepath_abs.fish
+index dbed76b..8e14d17 100644
+--- a/functions/_enhancd_filepath_abs.fish
++++ b/functions/_enhancd_filepath_abs.fish
+@@ -13,7 +13,7 @@ function _enhancd_filepath_abs
+         return 1
+     end
+ 
+-    echo "cwd : -$cwd- -- dir : -$dir-" >$HOME/debug.txt
++    #echo "cwd : -$cwd- -- dir : -$dir-" >$HOME/debug.txt
+ 
+     _enhancd_command_awk \
+         -f "$ENHANCD_ROOT/lib/to_abspath.awk" \

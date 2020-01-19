@@ -20,7 +20,7 @@ function fish_prompt_header
 
     # get current time
     set -l current_date (date +"%H時%M分%S秒")
-    set -l current_date_len 12 #(/usr/local/lib/bashrc-tools/strcolumns "$current_date")
+    set -l current_date_len 12 #(__string_column_width "$current_date")
     set -l prompt_len (math $prompt_len+$current_date_len)
 
     fill_width (math $COLUMNS-$prompt_len) "─"

@@ -3,7 +3,9 @@
 ##
 
 # contains the __enry_check_cached function and user settings
-source /etc/fish/private/enry_config.fish
+if [ -f /etc/fish/private/enry_config.fish ]
+    source /etc/fish/private/enry_config.fish
+end
 
 function enry-enable
     set -g enry_enabled 1

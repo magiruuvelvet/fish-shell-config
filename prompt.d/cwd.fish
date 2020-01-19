@@ -52,7 +52,7 @@ function fish_prompt_directory_stats
     printf (prompt_pwd)
 
     # get real length in columns of pwd (CJK)
-    set -l pwd_length (/usr/local/lib/bashrc-tools/strcolumns (prompt_pwd))
+    set -l pwd_length (__string_column_width (prompt_pwd))
 
     # total line length by now
     set -l line_len (math $cwd_inode_count+$cwd_invisible_inode_count+$pwd_length+$last_status_len+9)

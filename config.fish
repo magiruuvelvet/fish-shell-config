@@ -9,6 +9,9 @@ source /etc/fish/version.fish
 # current instance version
 set -g fish_config_revision_current "$fish_config_revision"
 
+# load default aliases
+source /etc/fish/aliases.fish
+
 # note: fish autoloads everything in conf.d/
 #       which breaks my overengineered prompt :(
 #       use custom directories instead
@@ -44,9 +47,13 @@ source /etc/fish/functions.d/enry.fish
 source /etc/fish/functions.d/exit_status.fish
 source /etc/fish/functions.d/git.fish
 source /etc/fish/functions.d/language_color.fish
+source /etc/fish/functions.d/strcolumns.fish
 source /etc/fish/functions.d/xdg.fish
 
-thefuck --alias f | source
+# load the fuck when installed
+if which thefuck 2>&1 >/dev/null
+    thefuck --alias f | source
+end
 
 # custom command not found handler
 function __fish_command_not_found_handler --on-event fish_command_not_found
