@@ -11,7 +11,11 @@ function fish_prompt_header
 
     # print full username with hostname
     printf $FISH_HEADER_USERNAME
-    set_color --bold b1321c
+    if [ ! -z "$FISH_CONFIG_HOSTNAME_COLOR" ]
+        printf "$FISH_CONFIG_HOSTNAME_COLOR"
+    else
+        printf "\e[1m\e[38;2;177;50;28m"
+    end
     printf $FISH_CONFIG_HOSTNAME
     set_color normal
 
