@@ -25,5 +25,5 @@ install "fish-git-util"
 install "enhancd/functions"
 
 echo "Patching plugins..."
-cd enhancd/functions
+cd enhancd
 patch -p1 < ../../install.d/enhancd-remove-debug.patch
