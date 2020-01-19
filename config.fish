@@ -51,7 +51,7 @@ source /etc/fish/functions.d/strcolumns.fish
 source /etc/fish/functions.d/xdg.fish
 
 # load the fuck when installed
-if which thefuck 2>&1 >/dev/null
+if which thefuck >/dev/null 2>&1
     thefuck --alias f | source
 end
 
