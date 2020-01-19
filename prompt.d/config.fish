@@ -10,6 +10,11 @@ set FISH_CONFIG_HOSTNAME_LENGTH (string length "$FISH_CONFIG_HOSTNAME")
 set FISH_REAL_CLEAR (which clear)
 set FISH_CURRENT_TTY (tty | sed 's/^\/dev\///')
 
+# if no full name was found in /etc/passwd, fallback to the username
+if [ (string length "$FISH_CONFIG_USERNAME") = 0 ]
+    set FISH_CONFIG_USERNAME "$FISH_CONFIG_WHOAMI"
+end
+
 function __fish_prompt_header_username_setter
     if [ "$FISH_CONFIG_WHOAMI" = "root" ]
         echo ""
