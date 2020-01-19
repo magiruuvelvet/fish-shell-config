@@ -19,7 +19,7 @@ function fish_prompt_git_monitor
 
     # repository has a history
     else
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+6)
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+5)
         printf "\e[1m[\e[0m"
 
         # branch name
@@ -83,21 +83,14 @@ function fish_prompt_git_monitor
         printf "\e[1m]\e[0m "
 
         # is dirty?
-        if git_is_dirty
-            set -l git_stats "dirty"
-            set_color --bold b8b85b
-            printf $git_stats
-            set_color normal
-            set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
-        else
+        if ! git_is_dirty
             set -l git_stats "clean"
             set_color --bold 087f00
             printf $git_stats
             set_color normal
-            set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
+            set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
+            printf " "
         end
-
-        printf " "
 
         # has changed files?
         if git_is_touched
