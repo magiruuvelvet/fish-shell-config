@@ -19,12 +19,21 @@ function fish_prompt_git_monitor
 
     # repository has a history
     else
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+5)
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+6)
         printf "\e[1m[\e[0m"
 
         # branch name
         set -l git_stats (git_branch_name)
         set_color b522b5
+        printf $git_stats
+        set_color normal
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
+
+        printf "\e[1m|\e[0m"
+
+        # commit count
+        set -l git_stats (git rev-list HEAD --count)
+        set_color ae81ae
         printf $git_stats
         set_color normal
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))

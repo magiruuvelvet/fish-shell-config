@@ -1,5 +1,5 @@
 ##
-## print a programming language in a specific color
+## print a programming language or build system in a specific color
 ## colors were taken from GitHub
 ##
 
@@ -48,6 +48,8 @@ function __print_language_colored
         set_color --bold e34c26
     else if [ "$argv[1]" = "Gentoo" ]
         set_color --bold 4e4371
+    else if [ "$argv[1]" = "Gradle" ]
+        set_color --bold 02303a
     else if [ "$argv[1]" = "(to)" ]
         set_color --italics e7e7e7
     end
