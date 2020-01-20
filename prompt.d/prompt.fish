@@ -17,6 +17,12 @@ source /etc/fish/prompt.d/git_monitor.fish
 source /etc/fish/prompt.d/download.fish
 source /etc/fish/prompt.d/ssh.fish
 
+function __fish_prompt_last_command_ssh
+    printf "│ \e[1mssh: welcome back home :)\e[0m"
+    set -g LAST_COMMAND_SSH 0
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 27
+end
+
 ## main extra function
 function fish_prompt_extras
     set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 2
@@ -27,8 +33,10 @@ function fish_prompt_extras
         __enry_reset_state
     end
 
+    # last command was ssh
+    if [ "$LAST_COMMAND_SSH" = 1 ]; __fish_prompt_last_command_ssh
     # git repository: show git monitoring prompt
-    if git_is_repo; fish_prompt_git_monitor
+    else if git_is_repo; fish_prompt_git_monitor
     # download directory: show last downloaded file for copy paste
     else if __dir_is_xdg_download; __fish_prompt_xdg_download_info
     # ssh config directory: print command how to generate a new key
