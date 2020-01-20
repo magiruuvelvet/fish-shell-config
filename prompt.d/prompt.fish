@@ -42,9 +42,7 @@ function fish_prompt_extras
     set -l build_system_len (math (string length $build_system) + 3)
     [ "$build_system" = "" ] && set build_system_len 0
 
-    # fill width
-    set -l tty_len (string length $FISH_CURRENT_TTY)
-    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$tty_len-2-$FISH_PROMPT_LAST_LANGUAGE_LENGTH-$build_system_len) " "
+    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$FISH_PROMPT_LAST_LANGUAGE_LENGTH-$build_system_len) " "
 
     # print detected programming language
     __enry_print_language
@@ -52,8 +50,7 @@ function fish_prompt_extras
     # print the detected build system
     __print_build_system "$build_system"
 
-    # print current tty
-    printf "[$FISH_CURRENT_TTY]─┘\n"
+    printf "─┘\n"
 end
 
 ##

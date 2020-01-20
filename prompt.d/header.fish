@@ -4,10 +4,10 @@
 
 function fish_prompt_header
     # initial length of prompt
-    set -l prompt_len (math 15+$FISH_HEADER_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
+    set -l prompt_len (math 16+$FISH_HEADER_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
 
-    # prompt header begin - contains redraw glitch fix
-    printf "          \n┌───[ "
+    # prompt header begin
+    printf "\n┌───["
 
     # print full username with hostname
     printf $FISH_HEADER_USERNAME
@@ -20,14 +20,21 @@ function fish_prompt_header
     set_color normal
 
     # prompt header end
-    printf " ]───"
+    printf "]───"
 
     # get current time
-    set -l current_date (date +"%H時%M分%S秒")
+    set -l current_date (date +"時間%H:%M:%S")
     set -l current_date_len 12 #(__string_column_width "$current_date")
     set -l prompt_len (math $prompt_len+$current_date_len)
 
+    # get current tty
+    set -l tty_len (string length $FISH_CURRENT_TTY)
+    set -l prompt_len (math $prompt_len+$tty_len)
+
     fill_width (math $COLUMNS-$prompt_len) "─"
+
+    # print current tty
+    printf "[$FISH_CURRENT_TTY]─"
 
     # print current time
     printf "["
