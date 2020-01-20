@@ -74,7 +74,7 @@ function fish_prompt_git_monitor
         printf "\e[1m|\e[0m"
 
         # short commit hash
-        set -l git_stats (git rev-parse --short=7 HEAD)
+        set -l git_stats (git rev-parse --short=8 HEAD)
         set_color 7f7f32
         printf $git_stats
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
