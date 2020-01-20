@@ -13,6 +13,7 @@ function __check_and_setup_git_directory
         function diff       --wraps "git diff";     git diff $argv; end
         function tag        --wraps "git tag";      git tag $argv; end
         function stag       --wraps "git stag";     git stag $argv; end
+        function slog       --wraps "git slog";     git slog $argv; end
         function ls-files   --wraps "git ls-files"; git ls-files $argv; end
         function remote     --wraps "git remote";   git remote $argv; end
         function visit;                           __git_url_visit $argv; end
@@ -27,7 +28,11 @@ function __check_and_setup_git_directory
         functions --erase branch
         functions --erase sdiff
         functions --erase diff
+        functions --erase tag
+        functions --erase stag
+        functions --erase slog
         functions --erase ls-files
+        functions --erase remote
         functions --erase visit
     end
 end
