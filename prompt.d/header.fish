@@ -4,7 +4,7 @@
 
 function fish_prompt_header
     # initial length of prompt
-    set -l prompt_len (math 16+$FISH_HEADER_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
+    set -l prompt_len (math 13+$FISH_HEADER_USERNAME_LENGTH+$FISH_CONFIG_HOSTNAME_LENGTH)
 
     # prompt header begin
     printf "\n┌───["
@@ -27,14 +27,7 @@ function fish_prompt_header
     set -l current_date_len 12 #(__string_column_width "$current_date")
     set -l prompt_len (math $prompt_len+$current_date_len)
 
-    # get current tty
-    set -l tty_len (string length $FISH_CURRENT_TTY)
-    set -l prompt_len (math $prompt_len+$tty_len)
-
     fill_width (math $COLUMNS-$prompt_len) "─"
-
-    # print current tty
-    printf "[$FISH_CURRENT_TTY]─"
 
     # print current time
     printf "["

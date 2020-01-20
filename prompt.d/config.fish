@@ -7,8 +7,6 @@ set FISH_CONFIG_HOSTNAME (hostname)
 set FISH_CONFIG_USERNAME (awk -F":" '{ print $1$5 }' /etc/passwd | grep "$FISH_CONFIG_WHOAMI" | sed "s/^$FISH_CONFIG_WHOAMI//" | tr -d ',')
 set FISH_CONFIG_USERNAME_LENGTH (__string_column_width "$FISH_CONFIG_USERNAME")
 set FISH_CONFIG_HOSTNAME_LENGTH (string length "$FISH_CONFIG_HOSTNAME")
-set FISH_REAL_CLEAR (which clear)
-set FISH_CURRENT_TTY (tty | sed 's/^\/dev\///')
 
 # if no full name was found in /etc/passwd, fallback to the username
 if [ (string length "$FISH_CONFIG_USERNAME") = 0 ]

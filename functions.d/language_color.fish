@@ -24,7 +24,7 @@ function __print_language_colored
         set_color --bold ecdebe
     else if [ "$argv[1]" = "Lua" ]
         set_color --bold 000080
-    else if [ "$argv[1]" = "Java" ]
+    else if [ "$argv[1]" = "Java" -o "$argv[1]" = "Maven" ]
         set_color --bold b07219
     else if [ "$argv[1]" = "Switf" ]
         set_color --bold ffac45

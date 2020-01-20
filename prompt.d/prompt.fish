@@ -86,7 +86,7 @@ end
 # full clear without regrets, nukes terminal emulator scrollback
 function clear
     echo -e "\033c\e[3J"
-    "$FISH_REAL_CLEAR"
+    command clear
     printf "\e[3J"
 end
 
@@ -99,7 +99,7 @@ end
 function __clear_full
     commandline ""
     echo -e "\033c\e[3J"
-    "$FISH_REAL_CLEAR"
+    command clear
     printf "\e[3J"
     commandline -f repaint
     set -g status_reset 1
