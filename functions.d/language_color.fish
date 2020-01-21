@@ -28,7 +28,7 @@ function __print_language_colored
         set_color --bold b07219
     else if [ "$argv[1]" = "Switf" ]
         set_color --bold ffac45
-    else if [ "$argv[1]" = "PHP" ]
+    else if [ "$argv[1]" = "PHP" -o "$argv[1]" = "Composer" ]
         set_color --bold 4f5d95
     else if [ "$argv[1]" = "CSS" ]
         set_color --bold 563d7c

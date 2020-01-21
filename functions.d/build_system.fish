@@ -21,6 +21,8 @@ function __detect_build_system
     else if [ -f "Gemfile" ]; echo "RubyGems"
     else if [ -f "Rakefile" ]; echo "Rake"
 
+    else if [ -f "composer.json" ]; echo "Composer"
+
     # keep this at the last position
     else if [ -f "Makefile" -o -f "makefile" -o -f "configure" -o -f "autogen.sh" ]
         echo "Makefile"
