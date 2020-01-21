@@ -131,9 +131,13 @@ function fish_prompt_git_monitor
 
         # has stashed files?
         if git_is_stashed
-            set -l git_stats "stashed"
-            set_color --bold 4d9be8
-            printf $git_stats
+            set stashed_count (git --no-pager stash list --decorate=short --pretty=oneline | wc -l)
+            set -l git_stats "stashed[$stashed_count]"
+            set_color --bold 3d7eba
+            printf "stashed"
+            set_color normal
+            set_color 3d7eba
+            printf "[$stashed_count]"
             set_color normal
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
             printf " "
