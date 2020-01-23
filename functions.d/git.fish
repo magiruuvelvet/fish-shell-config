@@ -16,6 +16,7 @@ function __check_and_setup_git_directory
         function slog       --wraps "git slog";     git slog $argv; end
         function ls-files   --wraps "git ls-files"; git ls-files $argv; end
         function remote     --wraps "git remote";   git remote $argv; end
+        function reset      --wraps "git reset";    git reset $argv; end
         function visit;                           __git_url_visit $argv; end
     else
         functions --erase commit
@@ -33,6 +34,7 @@ function __check_and_setup_git_directory
         functions --erase slog
         functions --erase ls-files
         functions --erase remote
+        functions --erase reset
         functions --erase visit
     end
 end
