@@ -72,12 +72,12 @@ function fish_prompt_git_monitor
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+2)
 
         # check if local and remote have a different history
-        set -l git_stats (git_ahead " " " " "~" " ")
-        if [ "$git_stats" = "~" ]
+        set -l git_stats (git_ahead " " " " "〜" " ")
+        if [ "$git_stats" = "〜" ]
             set_color --bold e80003
             printf $git_stats
             set_color normal
-            set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
+            set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
         end
 
         printf "\e[1m|\e[0m"
