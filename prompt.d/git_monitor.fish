@@ -8,7 +8,7 @@ function fish_prompt_git_monitor
     set_color normal
 
     # initial length
-    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 5
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 4
 
     # check if repo is empty and print it as such
     if git_is_empty
@@ -40,7 +40,11 @@ function fish_prompt_git_monitor
 
         printf "\e[1m|\e[0m"
 
-        # print remote branch difference
+        # print remote branch difference when repository has a remote
+        if [ (git remote -v | wc -l) != 0 ]
+
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH + 1)
+
         set pushable (git status | grep ahead | grep -o -E '[0-9]+ commit(s?)' | awk '{ print $1 }')
         set pullable (git status | grep behind | grep -o -E '[0-9]+ commit(s?)' | awk ' { print $1 }')
 
@@ -81,6 +85,8 @@ function fish_prompt_git_monitor
         end
 
         printf "\e[1m|\e[0m"
+
+        end # end remote repository difference
 
         # short commit hash
         set -l git_stats (git rev-parse --short=8 HEAD)
