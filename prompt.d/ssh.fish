@@ -1,6 +1,5 @@
 ## print ssh keygen command
 function __fish_prompt_ssh_info
-    printf "│ "
     set_color 282828
     set -l info_line "[SSH] generate new key: 'ssh-keygen -f name -t rsa -b 4096'"
     printf "$info_line"

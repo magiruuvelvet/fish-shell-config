@@ -9,7 +9,6 @@ function __fish_prompt_xdg_download_info
     set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+18)
 
     # print unfiltered text with escape sequences to keep the MIME type formatting
-    printf "│ "
     set_color cccccc
     printf "最新のファイル:"
     set_color normal

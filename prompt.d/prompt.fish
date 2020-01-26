@@ -18,7 +18,7 @@ source /etc/fish/prompt.d/download.fish
 source /etc/fish/prompt.d/ssh.fish
 
 function __fish_prompt_last_command_ssh
-    printf "│ \e[1mssh: welcome back home :)\e[0m"
+    printf "\e[1mssh: welcome back home :)\e[0m"
     set -g LAST_COMMAND_SSH 0
     set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 27
 end
@@ -33,6 +33,12 @@ function fish_prompt_extras
         __enry_reset_state
     end
 
+    if [ "$FISH_CONFIG_WHOAMI" = "root" ]
+        printf "│\e[1m\e[38;2;182;0;0m▌\e[0m"
+    else
+        printf "│ "
+    end
+
     # last command was ssh
     if [ "$LAST_COMMAND_SSH" = 1 ]; __fish_prompt_last_command_ssh
     # git repository: show git monitoring prompt
@@ -41,8 +47,7 @@ function fish_prompt_extras
     else if __dir_is_xdg_download; __fish_prompt_xdg_download_info
     # ssh config directory: print command how to generate a new key
     else if __dir_is_ssh_config; __fish_prompt_ssh_info
-    # default: no extras found for directory
-    else; printf "│ "; end
+    end
 
     # detect build system of current directory and show it
     # looks for the existence of specific files

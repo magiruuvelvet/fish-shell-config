@@ -2,7 +2,6 @@
 function fish_prompt_git_monitor
 
     # print that prompt is inside a git repository
-    printf "│ "
     set_color b3b3b3
     printf "git"
     set_color normal
