@@ -14,7 +14,7 @@ function fish_prompt_git_monitor
         set_color 919191
         printf "[empty repository]"
         set_color normal
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+18)
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+19)
 
     # repository has a history
     else
