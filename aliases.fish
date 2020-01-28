@@ -3,8 +3,8 @@
 # unset this from bash/zsh when present
 set -e PROMPT_COMMAND
 
-alias ls='ls --color'
-alias ll='ls -lla'
+alias ls='ls -v --color'
+alias ll='ls -llav'
 alias dir='dir --color'
 alias vdir='vdir --color'
 
