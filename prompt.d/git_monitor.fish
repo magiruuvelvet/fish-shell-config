@@ -44,19 +44,22 @@ function fish_prompt_git_monitor
 
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH + 1)
 
-        set pushable (git status | grep ahead | grep -o -E '[0-9]+ commit(s?)' | awk '{ print $1 }')
-        set pullable (git status | grep behind | grep -o -E '[0-9]+ commit(s?)' | awk ' { print $1 }')
+        # cache `git status` output for multiple use
+        set -l git_status_output (git status)
+
+        set pushable (echo {\n$git_status_output} | grep ahead | grep -o -E '[0-9]+ commit(s?)' | awk '{ print $1 }')
+        set pullable (echo {\n$git_status_output} | grep behind | grep -o -E '[0-9]+ commit(s?)' | awk ' { print $1 }')
 
         if [ "$pushable" = "" ]
             # get diverged count on empty difference
-            set pushable (git status | grep -A 1 diverged | tail -1 | awk '{ print $3 }')
+            set pushable (echo {\n$git_status_output} | grep -A 1 diverged | tail -1 | awk '{ print $3 }')
             if [ "$pushable" = "" ]
                 set pushable 0
             end
         end
         if [ "$pullable" = "" ]
             # get diverged count on empty difference
-            set pullable (git status | grep -A 1 diverged | tail -1 | awk '{ print $5 }')
+            set pullable (echo {\n$git_status_output} | grep -A 1 diverged | tail -1 | awk '{ print $5 }')
             if [ "$pullable" = "" ]
                 set pullable 0
             end
