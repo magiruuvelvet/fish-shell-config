@@ -67,10 +67,12 @@ function fish_prompt_git_monitor
 
         set -l git_stats "$pushable↑$pullable↓"
         set_color 19861d #9118a6
+        set_color --background f2fff3
         printf "$pushable"
         set_color --bold 19861d #9118a6
         printf "⬆ " #"↑"
         set_color 398ea7 #ca70ca
+        set_color --background f6fbfd
         printf "$pullable"
         set_color --bold 398ea7 #ca70ca
         printf "⬇ " #"↓"
@@ -81,6 +83,7 @@ function fish_prompt_git_monitor
         set -l git_stats (git_ahead " " " " "〜" " ")
         if [ "$git_stats" = "〜" ]
             set_color --bold e80003
+            set_color --background fdf3f3
             printf $git_stats
             set_color normal
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
