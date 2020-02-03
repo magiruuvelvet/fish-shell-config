@@ -99,9 +99,9 @@ function fish_prompt_git_monitor
 
         # is dirty?
         if ! git_is_dirty
-            set -l git_stats "clean"
+            set -l git_stats " "
             set_color --bold 087f00
-            printf $git_stats
+            printf "\uf00c"
             set_color normal
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
             printf " "
