@@ -1,20 +1,15 @@
 ## git monitor
 function fish_prompt_git_monitor
 
-    # print that prompt is inside a git repository
-    set_color b3b3b3
-    printf "git"
-    set_color normal
-
     # initial length
-    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 4
+    set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 0
 
     # check if repo is empty and print it as such
     if git_is_empty
         set_color 919191
-        printf "[empty repository]"
+        printf "[empty git repository]"
         set_color normal
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+19)
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+24)
 
     # repository has a history
     else
@@ -24,23 +19,32 @@ function fish_prompt_git_monitor
         # branch name
         set -l git_stats (git_branch_name)
         set_color b522b5
-        printf $git_stats
+        printf "\ue725 $git_stats"
         set_color normal
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+2)
 
-        printf "\e[1m|\e[0m"
+        printf " ("
+
+        # short commit hash
+        set -l git_stats (git rev-parse --short=8 HEAD)
+        set_color 7f7f32
+        printf $git_stats
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+5)
+        set_color normal
+
+        printf ")\e[1m] [\e[0m"
 
         # commit count
         set -l git_stats (git rev-list HEAD --count)
         set_color ae81ae
-        printf $git_stats
+        printf "\uf417$git_stats"
         set_color normal
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
-
-        printf "\e[1m|\e[0m"
+        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
 
         # print remote branch difference when repository has a remote
         if [ (git remote -v | wc -l) != 0 ]
+
+        printf "\e[1m|\e[0m"
 
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH + 1)
 
@@ -89,16 +93,7 @@ function fish_prompt_git_monitor
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
         end
 
-        printf "\e[1m|\e[0m"
-
         end # end remote repository difference
-
-        # short commit hash
-        set -l git_stats (git rev-parse --short=8 HEAD)
-        set_color 7f7f32
-        printf $git_stats
-        set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats))
-        set_color normal
 
         printf "\e[1m]\e[0m "
 
@@ -115,9 +110,9 @@ function fish_prompt_git_monitor
         # has changed files?
         if git_is_touched
             set changed_files_count (git ls-files -m | wc -l)
-            set -l git_stats "changed[$changed_files_count]"
+            set -l git_stats " [$changed_files_count]"
             set_color --bold b89354
-            printf "changed"
+            printf "\ufbae"
             set_color normal
             set_color b89354
             printf "[$changed_files_count]"
@@ -129,9 +124,9 @@ function fish_prompt_git_monitor
         # has untracked files?
         set -l untracked_files_count (git_untracked_files)
         if [ $untracked_files_count != 0 ]
-            set -l git_stats "untracked[$untracked_files_count]"
+            set -l git_stats " [$untracked_files_count]"
             set_color --bold 4d9be8
-            printf "untracked"
+            printf "\uf457"
             set_color normal
             set_color 4d9be8
             printf "[$untracked_files_count]"
@@ -143,9 +138,9 @@ function fish_prompt_git_monitor
         # has stashed files?
         if git_is_stashed
             set stashed_count (git --no-pager stash list --decorate=short --pretty=oneline | wc -l)
-            set -l git_stats "stashed[$stashed_count]"
+            set -l git_stats " [$stashed_count]"
             set_color --bold 3d7eba
-            printf "stashed"
+            printf "\uf475"
             set_color normal
             set_color 3d7eba
             printf "[$stashed_count]"

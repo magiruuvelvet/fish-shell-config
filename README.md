@@ -1,5 +1,7 @@
 # Installation
 
+https://github.com/ryanoasis/nerd-fonts
+
 ```plain
 (root)$ fish install
 ```
