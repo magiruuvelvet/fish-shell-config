@@ -3,8 +3,14 @@
 # unset this from bash/zsh when present
 set -e PROMPT_COMMAND
 
-alias ls='ls -v --color'
-alias ll='ls -llav'
+if [ (uname) = "FreeBSD" ]
+    alias ls='ls --color'
+    alias ll='ls -lla'
+else
+    alias ls='ls -v --color'
+    alias ll='ls -llav'
+end
+
 alias dir='dir --color'
 alias vdir='vdir --color'
 
