@@ -3,7 +3,7 @@
 ##
 
 # changing this variable hot reloads currently running fish shells on "fish_prompt"
-set -g fish_config_revision "29.2"
+set -g fish_config_revision "30.1"
 
 function __fish_config_reload_if_different
     if [ "$fish_config_revision" != "$fish_config_revision_current" ]
@@ -18,6 +18,6 @@ function __fish_config_reload_if_different
         set -g fish_config_revision_current "$fish_config_revision"
 
         # re-source config.fish
-        source /etc/fish/config.fish
+        source "$FISH_CONFIG_PREFIX/config.fish"
     end
 end

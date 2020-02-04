@@ -5,17 +5,17 @@
 # delete prompt pwd limit
 set -g fish_prompt_pwd_dir_length 0
 
-source /etc/fish/prompt.d/config.fish
-source /etc/fish/prompt.d/header.fish
-source /etc/fish/prompt.d/cwd.fish
+source "$FISH_CONFIG_PREFIX/prompt.d/config.fish"
+source "$FISH_CONFIG_PREFIX/prompt.d/header.fish"
+source "$FISH_CONFIG_PREFIX/prompt.d/cwd.fish"
 
 ##
 ## Prompt Extras
 ##
 set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 0
-source /etc/fish/prompt.d/git_monitor.fish
-source /etc/fish/prompt.d/download.fish
-source /etc/fish/prompt.d/ssh.fish
+source "$FISH_CONFIG_PREFIX/prompt.d/git_monitor.fish"
+source "$FISH_CONFIG_PREFIX/prompt.d/download.fish"
+source "$FISH_CONFIG_PREFIX/prompt.d/ssh.fish"
 
 function __fish_prompt_last_command_ssh
     printf "\e[1mssh: welcome back home :)\e[0m"

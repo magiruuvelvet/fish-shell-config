@@ -2,7 +2,7 @@
 ## enhancd
 ##
 
-set -gx ENHANCD_ROOT "/etc/fish/functions/enhancd"
+set -gx ENHANCD_ROOT "$FISH_CONFIG_PREFIX/functions/enhancd"
 set -gx ENHANCD_DIR "$HOME/.enhancd"
 
 set -gx ENHANCD_FILTER "fzy"

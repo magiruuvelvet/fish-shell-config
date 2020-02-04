@@ -3,18 +3,18 @@
 ##
 
 # contains the __enry_check_cached function and user settings
-if [ -f /etc/fish/private/enry_config.fish ]
-    source /etc/fish/private/enry_config.fish
+if [ -f "$FISH_CONFIG_PREFIX/private/enry_config.fish" ]
+    source "$FISH_CONFIG_PREFIX/private/enry_config.fish"
 end
 
 function enry-enable
     set -g enry_enabled 1
-    source /etc/fish/functions.d/enry.fish
+    source "$FISH_CONFIG_PREFIX/functions.d/enry.fish"
 end
 
 function enry-disable
     set -g enry_enabled 0
-    source /etc/fish/functions.d/enry.fish
+    source "$FISH_CONFIG_PREFIX/functions.d/enry.fish"
 end
 
 # state variables for enry
@@ -35,7 +35,7 @@ function __enry_get_language
         __enry_check_cached (prompt_pwd)
 
         if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
-            set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "/etc/fish/bin/enry" | head -1 | awk '{print $2}')
+            set FISH_PROMPT_LAST_LANGUAGE (timeout --foreground 1 "$FISH_CONFIG_PREFIX/bin/enry" | head -1 | awk '{print $2}')
             if [ "$FISH_PROMPT_LAST_LANGUAGE" = "" ]
                 set FISH_PROMPT_LAST_LANGUAGE "(to)"
             else

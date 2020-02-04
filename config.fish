@@ -3,14 +3,15 @@
 ##
 
 set -gx SHELL /bin/fish
+set -gx FISH_CONFIG_PREFIX /etc/fish
 
 # check which version the current fish instance is using
-source /etc/fish/version.fish
+source "$FISH_CONFIG_PREFIX/version.fish"
 # current instance version
 set -g fish_config_revision_current "$fish_config_revision"
 
 # load default aliases
-source /etc/fish/aliases.fish
+source "$FISH_CONFIG_PREFIX/aliases.fish"
 
 # note: fish autoloads everything in conf.d/
 #       which breaks my overengineered prompt :(
@@ -40,15 +41,15 @@ function source-recursive
 end
 
 # load custom extensions
-source /etc/fish/functions.d/build_system.fish
-source /etc/fish/functions.d/dirs.fish
-source /etc/fish/functions.d/enhancd.fish
-source /etc/fish/functions.d/enry.fish
-source /etc/fish/functions.d/exit_status.fish
-source /etc/fish/functions.d/git.fish
-source /etc/fish/functions.d/language_color.fish
-source /etc/fish/functions.d/strcolumns.fish
-source /etc/fish/functions.d/xdg.fish
+source "$FISH_CONFIG_PREFIX/functions.d/build_system.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/dirs.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/enhancd.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/enry.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/exit_status.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/git.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/language_color.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/strcolumns.fish"
+source "$FISH_CONFIG_PREFIX/functions.d/xdg.fish"
 
 # load the fuck when installed
 if which thefuck >/dev/null 2>&1
@@ -71,7 +72,7 @@ function __fish_command_not_found_handler --on-event fish_command_not_found
 end
 
 # load prompt
-source /etc/fish/prompt.d/prompt.fish
+source "$FISH_CONFIG_PREFIX/prompt.d/prompt.fish"
 function fish_prompt
     # store last application exit status
     set -g last_status $status
@@ -99,7 +100,7 @@ function fish_prompt
     printf "\033[0m\033[?25h"
 
     # check version
-    source /etc/fish/version.fish
+    source "$FISH_CONFIG_PREFIX/version.fish"
     __fish_config_reload_if_different
 
     # main prompt function
@@ -157,9 +158,9 @@ function su
 end
 
 # load private configurations
-if [ -d /etc/fish/private ]
-    source-recursive /etc/fish/private
+if [ -d "$FISH_CONFIG_PREFIX/private" ]
+    source-recursive "$FISH_CONFIG_PREFIX/private"
 end
 
 # load all completions
-source /etc/fish/completions/wrapper_commands.fish
+source "$FISH_CONFIG_PREFIX/completions/wrapper_commands.fish"
