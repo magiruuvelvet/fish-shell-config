@@ -117,3 +117,16 @@ function __clear_full
     commandline -f repaint
     set -g status_reset 1
 end
+
+function __list_files
+    printf "\n"
+
+    if [ (commandline) = "" ]
+        ll
+    else
+        ll | egrep -i (commandline)
+    end
+
+    printf "\n\n\n\n" # number of visible prompt lines (first newline in prompt is ignored)
+    commandline -f repaint
+end

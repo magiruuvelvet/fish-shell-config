@@ -148,6 +148,7 @@ function fish_user_key_bindings
 
     bind \cc __clear_commandline # Ctrl+C
     bind \cu __clear_commandline # Ctrl+U
+    bind \cx __list_files        # Ctrl+X
 end
 
 # su wrapper with fish fork hint
