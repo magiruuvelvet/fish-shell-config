@@ -122,9 +122,9 @@ function __list_files
     printf "\n"
 
     if [ (commandline) = "" ]
-        ll
+        ls --color -lla
     else
-        ll | egrep -i (commandline)
+        ls --color -lla | egrep -i (commandline)
     end
 
     printf "\n\n\n\n" # number of visible prompt lines (first newline in prompt is ignored)
