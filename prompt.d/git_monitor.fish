@@ -17,8 +17,15 @@ function fish_prompt_git_monitor
 
         # branch name
         set -l git_stats (git_branch_name)
-        set_color b522b5
-        printf "\ue725 $git_stats"
+        set -l git_branch_icon ""
+        if git_is_detached_head
+            set_color --italic 2282b5
+            set git_branch_icon "\ue728"
+        else
+            set_color b522b5
+            set git_branch_icon "\ue725"
+        end
+        printf "$git_branch_icon $git_stats"
         set_color normal
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+2)
 
