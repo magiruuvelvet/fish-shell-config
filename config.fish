@@ -93,6 +93,11 @@ function fish_prompt
         echo
     end
 
+    # run custom function
+    if functions -q fish_prompt_custom
+        fish_prompt_custom
+    end
+
     # reset terminal to previous state
     # (for broken applications which don't clean up
     #  their escape sequences or do weird things to

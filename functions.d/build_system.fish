@@ -16,12 +16,12 @@ function __detect_build_system
 
     else if [ -f "requirements.txt" -o -f "setup.py" ]; echo "Python"
 
-    else if [ -d "node_modules" -o -f "package.json" ]; echo "NodeJS"
-
     else if [ -f "Gemfile" ]; echo "RubyGems"
     else if [ -f "Rakefile" ]; echo "Rake"
 
     else if [ -f "composer.json" ]; echo "Composer"
+
+    else if [ -d "node_modules" -o -f "package.json" ]; echo "NodeJS"
 
     # keep this at the last position
     else if [ -f "Makefile" -o -f "makefile" -o -f "configure" -o -f "autogen.sh" ]
