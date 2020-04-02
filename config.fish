@@ -147,15 +147,6 @@ end
 #     commandline -f repaint
 # end
 
-# custom keybindings
-function fish_user_key_bindings
-    bind \cl __clear_full        # Ctrl+L ("clear" command, but as keyboard shortcut)
-
-    bind \cc __clear_commandline # Ctrl+C
-    bind \cu __clear_commandline # Ctrl+U
-    bind \cx __list_files        # Ctrl+X
-end
-
 # su wrapper with fish fork hint
 function su
     # hint to exec fish after sourcing the environment
@@ -166,6 +157,19 @@ end
 # load private configurations
 if [ -d "$FISH_CONFIG_PREFIX/private" ]
     source-recursive "$FISH_CONFIG_PREFIX/private"
+end
+
+# custom keybindings
+function fish_user_key_bindings
+    bind \cl __clear_full        # Ctrl+L ("clear" command, but as keyboard shortcut)
+
+    bind \cc __clear_commandline # Ctrl+C
+    bind \cu __clear_commandline # Ctrl+U
+    bind \cx __list_files        # Ctrl+X
+
+    if functions -q __custom_user_key_bindings
+        __custom_user_key_bindings
+    end
 end
 
 # load all completions
