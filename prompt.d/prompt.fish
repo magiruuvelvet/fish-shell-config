@@ -116,6 +116,9 @@ function __clear_full
     printf "\e[3J"
     commandline -f repaint
     set -g status_reset 1
+
+    # requires patched fish shell, reset status to zero on clear
+    set status 0 >/dev/null 2>&1 || true
 end
 
 function __list_files
