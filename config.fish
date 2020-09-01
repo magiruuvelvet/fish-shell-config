@@ -43,7 +43,7 @@ end
 # load custom extensions
 source "$FISH_CONFIG_PREFIX/functions.d/build_system.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/dirs.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/enhancd.fish"
+#source "$FISH_CONFIG_PREFIX/functions.d/enhancd.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/enry.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/exit_status.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/git.fish"
