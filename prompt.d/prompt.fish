@@ -42,7 +42,7 @@ function fish_prompt_extras
     # last command was ssh
     if [ "$LAST_COMMAND_SSH" = 1 ]; __fish_prompt_last_command_ssh
     # git repository: show git monitoring prompt
-    else if git_is_repo; fish_prompt_git_monitor
+    else if git_repo_check; fish_prompt_git_monitor
     # download directory: show last downloaded file for copy paste
     else if __dir_is_xdg_download; __fish_prompt_xdg_download_info
     # ssh config directory: print command how to generate a new key

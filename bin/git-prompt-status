@@ -1,0 +1,205 @@
+#!/usr/bin/env ruby
+#
+# EXIT CODES
+#  1 generic error
+#  2 os error
+#  3 repository error or directory isn't a repository
+#
+
+# TODO: count of git stashes (rugged doesn't support this feature)
+# git --no-pager stash list --decorate=short --pretty=oneline | wc -l
+
+# output is shallowed when using pipes if this isn't set to true
+# why is this not enabled by default anyway :/
+STDOUT.sync = true
+STDERR.sync = true
+
+# check if a path was given
+if ARGV.empty?
+    $stderr.puts "ArgumentError: path missing"
+    exit! 1
+end
+
+# attempt to load libgit2 bindings or die with a friendly error message
+begin
+    require "rugged"
+rescue LoadError
+    $stderr.puts "LoadError: libgit2 ruby bindings (rugged) not installed"
+    exit! 1
+end
+
+# check if the directory is a git repository or can be accessed otherwise
+begin
+    repo = Rugged::Repository.discover(ARGV[0])
+rescue Rugged::OSError => e
+    $stderr.puts "Rugged::OSError: #{e}"
+    exit! 2
+rescue Rugged::RepositoryError
+    exit! 3
+end
+
+# should the output contain friendly names in the first column?
+$should_print_friendly = ARGV[1] == "1"
+
+# prints each data line by line to avoid parsing the output
+# can optionally print a friendly name on first column and the data on second column
+def print_data(friendly_name, data)
+    if $should_print_friendly
+        $stdout.puts "#{friendly_name} #{data}"
+    else
+        $stdout.puts "#{data}"
+    end
+end
+
+# get branch name of current HEAD state
+def determine_branch_name(repo)
+    name = ""
+    repo.branches.each do |branch|
+        if branch.head?
+            name = branch.name
+            break
+        end
+    end
+    return name
+end
+
+# determines the repositories current branch or tag name,
+# otherwise returns the current checked out commit hash instead
+def determine_branch_or_tag_name(repo)
+    name = ""
+    type = :none
+
+    # first check if repo is in detached HEAD state
+    if repo.head_detached?
+        # check if current commit has a tag
+        repo.tags.each do |tag|
+            if tag.target.oid == repo.head.target_id
+                name = tag.name
+                type = :tag
+                break
+            end
+        end
+
+        # check if we got a tag name, otherwise it's a wild commit
+        if type == :none
+            name = repo.head.target_id[0..7]
+            type = :commit
+        end
+    else
+        # HEAD is not detached, so we are in a branch
+        name = determine_branch_name(repo)
+        type = :branch
+    end
+
+    return { name: name, type: type }
+end
+
+# - untracked files count
+# - modified files count
+# - deleted files count
+# - is the repository clean? (except for untracked files)
+def repository_status(repo)
+    untracked_files = 0
+    modified_files = 0
+    deleted_files = 0
+
+    #- +:index_new+: the file is new in the index
+    #- +:index_modified+: the file has been modified in the index
+    #- +:index_deleted+: the file has been deleted from the index
+    #- +:worktree_new+: the file is new in the working directory
+    #- +:worktree_modified+: the file has been modified in the working directory
+    #- +:worktree_deleted+: the file has been deleted from the working directory
+    repo.status do |status|
+        if status[1].include?(:worktree_new) || status[1].include?(:index_new)
+            untracked_files += 1
+        elsif status[1].include?(:worktree_modified) || status[1].include?(:index_modified)
+            modified_files += 1
+        elsif status[1].include?(:worktree_deleted) || status[1].include?(:index_deleted)
+            deleted_files += 1
+        end
+    end
+
+    return {
+        untracked_files: untracked_files,
+        modified_files: modified_files,
+        deleted_files: deleted_files,
+        clean: modified_files == 0 && deleted_files == 0
+    }
+end
+
+# count number of commits from current HEAD state
+def count_commits(repo)
+    walker = Rugged::Walker.new(repo)
+    walker.push(repo.head.target_id)
+    return walker.count
+end
+
+# how many commits is the local branch ahead or behind the remote branch
+def get_ahead_behind(repo)
+    if repo.head_detached?
+        # not in a branch, assume no diversion
+        return [0, 0]
+    else
+        # get branch name
+        name = determine_branch_name(repo)
+
+        # no branch found, assume no diversion
+        return [0, 0] if name.empty?
+
+        begin
+            local_branch_commit = repo.head.target_id
+            remote_name = repo.branches[name].remote.name
+            remote_branch_commit = repo.branches["remotes/#{remote_name}/#{name}"].target_id
+            return repo.ahead_behind(local_branch_commit, remote_branch_commit)
+        rescue
+            # branch has no remote tracking branch
+            return [0, 0]
+        end
+    end
+end
+
+# has the currently checked out branch a remote tracking branch?
+def has_remote_tracking_branch(repo)
+    name = determine_branch_name(repo)
+    return false if name.empty?
+
+    begin
+        remote_name = repo.branches[name].remote.name
+        return !repo.branches["remotes/#{remote_name}/#{name}"].nil?
+    rescue
+        return false
+    end
+end
+
+# NEVER CHANGE THE ORDER HERE, ONLY APPEND TO BOTTOM
+# THIS BREAKS SCRIPTS WHICH DON'T USE FRIENDLY OUTPUT OTHERWISE
+
+print_data "empty", repo.empty?
+print_data "bare", repo.bare?
+print_data "head_unborn", repo.head_unborn?
+print_data "head_detached", repo.head_detached?
+
+# repository is empty, no more data to query
+exit!(0) if repo.empty?
+
+print_data "hash", repo.head.target_id
+print_data "hash_short", repo.head.target_id[0..7]
+
+branch_name = determine_branch_or_tag_name(repo)
+print_data "branch_name", branch_name[:name]
+print_data "branch_type", branch_name[:type]
+
+status = repository_status(repo)
+print_data "untracked_files", status[:untracked_files]
+print_data "modified_files", status[:modified_files]
+print_data "deleted_files", status[:deleted_files]
+print_data "clean", status[:clean]
+
+print_data "commits", count_commits(repo)
+
+ahead_behind = get_ahead_behind(repo)
+print_data "ahead_commits", ahead_behind[0]
+print_data "behind_commits", ahead_behind[1]
+print_data "diverged_history", ahead_behind[0] != 0 && ahead_behind[1] != 0
+
+print_data "has_remote_tracking_branch", has_remote_tracking_branch(repo)

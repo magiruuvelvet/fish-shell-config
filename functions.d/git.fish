@@ -1,6 +1,6 @@
 # git directory features
 function __check_and_setup_git_directory
-    if git_is_repo
+    if [ "$git_repo_present" = 1 ]
         function commit     --wraps "git commit";   git commit $argv; end
         function checkout   --wraps "git checkout"; git checkout $argv; end
         function pull       --wraps "git pull";     git pull $argv; end

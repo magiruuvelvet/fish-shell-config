@@ -2,6 +2,8 @@
 /functions
 /bin
 
+!/bin/git-prompt-status
+
 # private files
 /private
 
