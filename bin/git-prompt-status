@@ -41,6 +41,9 @@ end
 # should the output contain friendly names in the first column?
 $should_print_friendly = ARGV[1] == "1"
 
+# should commit counting be disabled?
+$disable_walker = ARGV[2] == "1"
+
 # prints each data line by line to avoid parsing the output
 # can optionally print a friendly name on first column and the data on second column
 def print_data(friendly_name, data)
@@ -128,6 +131,7 @@ def repository_status(repo)
 end
 
 # count number of commits from current HEAD state
+# this is still extremely slow on very huge repositories, just like using the git command line
 def count_commits(repo)
     walker = Rugged::Walker.new(repo)
     walker.push(repo.head.target_id)
@@ -195,7 +199,11 @@ print_data "modified_files", status[:modified_files]
 print_data "deleted_files", status[:deleted_files]
 print_data "clean", status[:clean]
 
-print_data "commits", count_commits(repo)
+unless $disable_walker
+    print_data "commits", count_commits(repo)
+else
+    print_data "commits", "U" # U for unknown or undefined
+end
 
 ahead_behind = get_ahead_behind(repo)
 print_data "ahead_commits", ahead_behind[0]

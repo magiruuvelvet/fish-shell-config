@@ -1,5 +1,15 @@
 function git_repo_check
-    set -g git_repo_status (/etc/fish/bin/git-prompt-status (pwd) 0 2>/dev/null)
+    set -l disable_walker 0
+
+    if [ -f /etc/fish/private/git_config.fish ]
+        source /etc/fish/private/git_config.fish
+        # function printing 0 or 1, determines if commits should be counted or not
+        if functions -q __git_config_disable_walker
+            set disable_walker (__git_config_disable_walker (pwd))
+        end
+    end
+
+    set -g git_repo_status (/etc/fish/bin/git-prompt-status (pwd) 0 $disable_walker 2>/dev/null)
     set -g git_repo_present 1
 
     if [ $status = 0 ]
