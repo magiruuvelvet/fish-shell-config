@@ -132,9 +132,10 @@ function fish_prompt_git_monitor
 
         # check if local and remote have a different history
         if [ "$git_diverged_history" = "true" ]
+            set -l git_stats "〜"
             set_color --bold e80003
             set_color --background fdf3f3
-            printf "〜"
+            printf "$git_stats"
             set_color normal
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
         end
