@@ -44,6 +44,10 @@ $should_print_friendly = ARGV[1] == "1"
 # should commit counting be disabled?
 $disable_walker = ARGV[2] == "1"
 
+# ugly global variables for performance in this script
+$branch_name = ""
+$remote_branch = ""
+
 # prints each data line by line to avoid parsing the output
 # can optionally print a friendly name on first column and the data on second column
 def print_data(friendly_name, data)
@@ -64,6 +68,20 @@ def determine_branch_name(repo)
         end
     end
     return name
+end
+
+def determine_remote_branch_name(repo)
+    begin
+        remote_name = repo.branches[$branch_name].remote.name
+        remote_name = "remotes/#{remote_name}/#{$branch_name}"
+        unless repo.branches[remote_name].nil?
+            return remote_name
+        else
+            return ""
+        end
+    rescue
+        return ""
+    end
 end
 
 # determines the repositories current branch or tag name,
@@ -90,7 +108,7 @@ def determine_branch_or_tag_name(repo)
         end
     else
         # HEAD is not detached, so we are in a branch
-        name = determine_branch_name(repo)
+        name = $branch_name
         type = :branch
     end
 
@@ -144,16 +162,12 @@ def get_ahead_behind(repo)
         # not in a branch, assume no diversion
         return [0, 0]
     else
-        # get branch name
-        name = determine_branch_name(repo)
-
         # no branch found, assume no diversion
-        return [0, 0] if name.empty?
+        return [0, 0] if $branch_name.empty?
 
         begin
             local_branch_commit = repo.head.target_id
-            remote_name = repo.branches[name].remote.name
-            remote_branch_commit = repo.branches["remotes/#{remote_name}/#{name}"].target_id
+            remote_branch_commit = repo.branches[$remote_branch].target_id
             return repo.ahead_behind(local_branch_commit, remote_branch_commit)
         rescue
             # branch has no remote tracking branch
@@ -164,12 +178,10 @@ end
 
 # has the currently checked out branch a remote tracking branch?
 def has_remote_tracking_branch(repo)
-    name = determine_branch_name(repo)
-    return false if name.empty?
+    return false if $branch_name.empty?
 
     begin
-        remote_name = repo.branches[name].remote.name
-        return !repo.branches["remotes/#{remote_name}/#{name}"].nil?
+        return !repo.branches[$remote_branch].nil?
     rescue
         return false
     end
@@ -185,6 +197,9 @@ print_data "head_detached", repo.head_detached?
 
 # repository is empty, no more data to query
 exit!(0) if repo.empty?
+
+$branch_name = determine_branch_name(repo)
+$remote_branch = determine_remote_branch_name(repo)
 
 print_data "hash", repo.head.target_id
 print_data "hash_short", repo.head.target_id[0..7]
