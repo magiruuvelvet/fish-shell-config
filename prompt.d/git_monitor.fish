@@ -3,10 +3,22 @@ function git_repo_check
 
     if [ -f /etc/fish/private/git_config.fish ]
         source /etc/fish/private/git_config.fish
+        # function printing 0 or 1, determines if the git prompt should be loaded or not
+        if functions -q __git_config_disable_status
+            set disable_git_status (__git_config_disable_status (pwd))
+        end
+
         # function printing 0 or 1, determines if commits should be counted or not
         if functions -q __git_config_disable_walker
             set disable_walker (__git_config_disable_walker (pwd))
         end
+    end
+
+    # forcefully disable git status in some locations (eg: remote mounts)
+    if [ $disable_git_status = 1 ]
+        set -e git_repo_status
+        set -e git_repo_present
+        return 1
     end
 
     set -g git_repo_status (/etc/fish/bin/git-prompt-status (pwd) 0 $disable_walker 2>/dev/null)
