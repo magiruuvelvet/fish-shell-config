@@ -1,4 +1,11 @@
 function git_repo_check
+    # break early when git prompt is disabled by environment variable
+    if [ "$FISH_PROMPT_GIT_ENABLED" = "0" ]
+        set -e git_repo_status
+        set -e git_repo_present
+        return 1
+    end
+
     set -l disable_walker 0
 
     if [ -f /etc/fish/private/git_config.fish ]
