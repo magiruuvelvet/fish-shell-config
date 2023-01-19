@@ -83,6 +83,11 @@ function fish_prompt_input_line
         set_color normal
     end
 
+    # use different prompt line when path aware aliases are present
+    if __path_aware_aliases_present
+        set prompt_input_line_end (printf "\e[1m\e[38;2;73;140;63m>>\e[0m ")
+    end
+
     printf "$prompt_input_line_end"
 end
 
