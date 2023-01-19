@@ -2,6 +2,10 @@
 ## Fish Config
 ##
 
+# ignore this configuration file when not running in interactive mode
+# to ensure a clean vanilla fish shell environment
+if status is-interactive
+
 set -gx SHELL /bin/fish
 set -gx FISH_CONFIG_PREFIX /etc/fish
 
@@ -174,3 +178,5 @@ end
 
 # load all completions
 source "$FISH_CONFIG_PREFIX/completions/wrapper_commands.fish"
+
+end # is-interactive
