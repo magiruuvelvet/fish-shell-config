@@ -52,9 +52,9 @@ source "$FISH_CONFIG_PREFIX/functions.d/strcolumns.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/xdg.fish"
 
 # load the fuck when installed
-if which thefuck >/dev/null 2>&1
-    thefuck --alias f | source
-end
+#if which thefuck >/dev/null 2>&1
+#    thefuck --alias f | source
+#end
 
 # custom command not found handler
 function __fish_command_not_found_handler --on-event fish_command_not_found
