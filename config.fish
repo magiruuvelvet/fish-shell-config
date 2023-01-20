@@ -180,4 +180,8 @@ end
 # load all completions
 source "$FISH_CONFIG_PREFIX/completions/wrapper_commands.fish"
 
+# call initial path-aware-aliases setup
+# --on-variable PWD is not triggered on shell initialization
+__path_aware_aliases_setup
+
 end # is-interactive
