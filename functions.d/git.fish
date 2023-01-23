@@ -18,6 +18,17 @@ function __check_and_setup_git_directory
         function remote     --wraps "git remote";   git remote $argv; end
         function reset      --wraps "git reset";    git reset $argv; end
         function visit;                           __git_url_visit $argv; end
+
+        # overwrite git with custom logic which should only be visible to the shell and nowhere else
+        function git --wraps "git"
+            if begin [ $argv[1] = "gui" ]; and [ (count $argv) = 1 ]; end
+                # launch git gui in background and disown the process, we don't care about git gui blocking the shell
+                command git gui &; disown
+            else
+                # otherwise forward arguments as-is
+                command git $argv
+            end
+        end
     else
         functions --erase commit
         functions --erase checkout
@@ -36,6 +47,8 @@ function __check_and_setup_git_directory
         functions --erase remote
         functions --erase reset
         functions --erase visit
+
+        functions --erase git
     end
 end
 
