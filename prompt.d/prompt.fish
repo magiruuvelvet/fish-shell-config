@@ -13,6 +13,9 @@ source "$FISH_CONFIG_PREFIX/prompt.d/cwd.fish"
 ## Prompt Extras
 ##
 set FISH_PROMPT_EXTRAS_TOTAL_LENGTH 0
+set FISH_PROMPT_EXTRAS_LINE2_TOTAL_LENGTH 0
+set FISH_PROMPT_EXTRAS_LINE2_ENABLED 0
+set FISH_PROMPT_EXTRAS_GIT_REPO_FOUND 0
 source "$FISH_CONFIG_PREFIX/prompt.d/git_monitor.fish"
 source "$FISH_CONFIG_PREFIX/prompt.d/download.fish"
 source "$FISH_CONFIG_PREFIX/prompt.d/ssh.fish"
@@ -42,7 +45,9 @@ function fish_prompt_extras
     # last command was ssh
     if [ "$LAST_COMMAND_SSH" = 1 ]; __fish_prompt_last_command_ssh
     # git repository: show git monitoring prompt
-    else if git_repo_check; fish_prompt_git_monitor
+    else if git_repo_check
+        set FISH_PROMPT_EXTRAS_GIT_REPO_FOUND 1
+        fish_prompt_git_monitor
     # download directory: show last downloaded file for copy paste
     else if __dir_is_xdg_download; __fish_prompt_xdg_download_info
     # ssh config directory: print command how to generate a new key
@@ -58,12 +63,40 @@ function fish_prompt_extras
     fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_TOTAL_LENGTH-2-$FISH_PROMPT_LAST_LANGUAGE_LENGTH-$build_system_len) " "
 
     # print detected programming language
-    __enry_print_language
+    # NOTE: feature permanently deprecated [ if you enable this, you are on your own, good luck ]
+    # __enry_print_language
 
     # print the detected build system
     __print_build_system "$build_system"
 
+    if [ "$FISH_PROMPT_EXTRAS_LINE2_ENABLED" = 1 ]
+        printf " │\n"
+    else
+        printf "─┘\n"
+    end
+end
+
+function fish_prompt_extras_line2
+    if [ "$FISH_PROMPT_EXTRAS_LINE2_ENABLED" != 1 ]
+        set FISH_PROMPT_EXTRAS_LINE2_ENABLED 0
+        set FISH_PROMPT_EXTRAS_GIT_REPO_FOUND 0
+        return 0
+    end
+
+    set FISH_PROMPT_EXTRAS_LINE2_TOTAL_LENGTH 2
+
+    printf "│ "
+
+    if [ "$FISH_PROMPT_EXTRAS_GIT_REPO_FOUND" = 1 ]
+        fish_prompt_git_monitor_line2
+    end
+
+    fill_width (math $COLUMNS-$FISH_PROMPT_EXTRAS_LINE2_TOTAL_LENGTH-2) " "
+
     printf "─┘\n"
+
+    set FISH_PROMPT_EXTRAS_LINE2_ENABLED 0
+    set FISH_PROMPT_EXTRAS_GIT_REPO_FOUND 0
 end
 
 ##
@@ -98,6 +131,7 @@ function fish_prompt_main
     fish_prompt_header
     fish_prompt_directory_stats
     fish_prompt_extras
+    fish_prompt_extras_line2
     fish_prompt_input_line
 end
 

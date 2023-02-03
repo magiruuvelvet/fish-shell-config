@@ -91,6 +91,7 @@ function fish_prompt_git_monitor
 
     # repository has a history
     else
+        set FISH_PROMPT_EXTRAS_LINE2_ENABLED 1
         set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+4)
 
         # branch name
@@ -173,15 +174,30 @@ function fish_prompt_git_monitor
             printf " "
         end
 
-        # has changed files?
-        if [ "$git_modified_files" != "0" -o "$git_deleted_files" != "0" ]
-            set changed_files_count (math $git_modified_files + $git_deleted_files)
-            set -l git_stats " [$changed_files_count]"
+        # has modified files?
+        if [ "$git_modified_files" != "0" ]
+            set -l git_stats " [$git_modified_files]"
             set_color --bold b89354
-            printf "\ufbae"
+            # BUG? recent update of terminal emulator changes the writing direction to right-to-left for this character
+            # U+202D (LEFT-TO-RIGHT OVERRIDE) doesn't work to bypass this issue, so change the character entirely
+            # alternatively upgrade to a newer Nerd Fonts version and use \udb81\udeb0
+            printf "m" # "\ufbae"
             set_color normal
             set_color b89354
-            printf "[$changed_files_count]"
+            printf "[$git_modified_files]"
+            set_color normal
+            set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
+            printf " "
+        end
+
+        # has deleted files?
+        if [ "$git_deleted_files" != "0" ]
+            set -l git_stats " [$git_deleted_files]"
+            set_color --bold ce0000
+            printf "d"
+            set_color normal
+            set_color ce0000
+            printf "[$git_deleted_files]"
             set_color normal
             set FISH_PROMPT_EXTRAS_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_TOTAL_LENGTH+(string length $git_stats)+1)
             printf " "
@@ -218,4 +234,34 @@ function fish_prompt_git_monitor
         # show most used programming language
         __enry_get_language
     end
+end
+
+function fish_prompt_git_monitor_line2
+    set_color --bold 45699e
+    printf "\uf02b"
+    set_color normal
+    printf " "
+
+    set -l max_possible_len (math $COLUMNS-8)
+
+    # receive last commit message and shorten it as needed
+    set -l git_last_commit_message (git --no-pager log --pretty='%B' -n1)
+    set -l git_last_commit_message (string shorten -m "$max_possible_len" "$git_last_commit_message")
+    set -l git_last_commit_message_len (__string_column_width "$git_last_commit_message")
+
+    if [ "$git_last_commit_message_len" = 0 ]
+        set_color --italic cacaca
+        printf "(コミットメッセージなし)" #"(no commit message)"
+        set_color normal
+        set git_last_commit_message_len 24 #19
+    else
+        set_color 313131
+        printf "$git_last_commit_message"
+        set_color normal
+    end
+
+    # padding
+    printf " "
+
+    set FISH_PROMPT_EXTRAS_LINE2_TOTAL_LENGTH (math $FISH_PROMPT_EXTRAS_LINE2_TOTAL_LENGTH+$git_last_commit_message_len+3)
 end

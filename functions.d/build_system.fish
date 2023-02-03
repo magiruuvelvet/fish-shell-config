@@ -34,6 +34,12 @@ function __print_build_system
     if [ (string length "$argv[1]") != 0 ]
         printf "["
         __print_language_colored "$argv[1]"
-        printf "]─"
+        printf "]"
+
+        if [ "$FISH_PROMPT_EXTRAS_LINE2_ENABLED" = 1 ]
+            printf " "
+        else
+            printf "─"
+        end
     end
 end
