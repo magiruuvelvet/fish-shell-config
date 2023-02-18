@@ -18,7 +18,7 @@ set -g fish_config_revision_current "$fish_config_revision"
 source "$FISH_CONFIG_PREFIX/aliases.fish"
 
 # note: fish autoloads everything in conf.d/
-#       which breaks my overengineered prompt :(
+#       which breaks my prompt :(
 #       use custom directories instead
 # note 2: wildcard sourcing doesn't seem to work
 
@@ -45,15 +45,10 @@ function source-recursive
 end
 
 # load custom extensions
-source "$FISH_CONFIG_PREFIX/functions.d/build_system.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/dirs.fish"
 #source "$FISH_CONFIG_PREFIX/functions.d/enhancd.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/enry.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/exit_status.fish"
+#source "$FISH_CONFIG_PREFIX/functions.d/exit_status.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/git.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/language_color.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/strcolumns.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/xdg.fish"
+#source "$FISH_CONFIG_PREFIX/functions.d/language_color.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/path-aware-aliases.fish"
 
 # load the fuck when installed

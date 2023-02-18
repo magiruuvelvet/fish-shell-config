@@ -1,4 +1,10 @@
 #!/usr/bin/env ruby
+#======================================================================#
+# THIS SCRIPT IS DEPRECATED AND WAS SUPERSEDED BY MY NEW SHELL PROMPT  #
+# NO SUPPORT PROVIDED FOR THIS SCRIPT WHATSOEVER!!!                    #
+# KEPT FOR EDUCATIONAL PURPOSES                                        #
+#======================================================================#
+
 #
 # EXIT CODES
 #  1 generic error
