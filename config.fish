@@ -45,10 +45,6 @@ function source-recursive
 end
 
 # load custom extensions
-#source "$FISH_CONFIG_PREFIX/functions.d/enhancd.fish"
-#source "$FISH_CONFIG_PREFIX/functions.d/exit_status.fish"
-source "$FISH_CONFIG_PREFIX/functions.d/git.fish"
-#source "$FISH_CONFIG_PREFIX/functions.d/language_color.fish"
 source "$FISH_CONFIG_PREFIX/functions.d/path-aware-aliases.fish"
 
 # load the fuck when installed
@@ -72,6 +68,7 @@ function __fish_command_not_found_handler --on-event fish_command_not_found
 end
 
 # load prompt
+/etc/fish/bin/shell-prompt --shell-init-source fish | source
 source "$FISH_CONFIG_PREFIX/prompt.d/prompt.fish"
 function fish_prompt
     # store last application exit status
@@ -112,7 +109,7 @@ function fish_prompt
     fish_prompt_main
 
     # prompt post processing
-    __check_and_setup_git_directory
+    __git_prompt_setup_directory_aliases
 end
 
 # function fish_right_prompt
