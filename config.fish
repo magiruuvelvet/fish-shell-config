@@ -9,11 +9,6 @@ if status is-interactive
 set -gx SHELL /bin/fish
 set -gx FISH_CONFIG_PREFIX /etc/fish
 
-# check which version the current fish instance is using
-source "$FISH_CONFIG_PREFIX/version.fish"
-# current instance version
-set -g fish_config_revision_current "$fish_config_revision"
-
 # load default aliases
 source "$FISH_CONFIG_PREFIX/aliases.fish"
 
@@ -103,10 +98,6 @@ function fish_prompt
     #  their escape sequences or do weird things to
     #  the terminal emulator and forgot to restore them)
     printf "\033[0m\033[?25h"
-
-    # check version
-    source "$FISH_CONFIG_PREFIX/version.fish"
-    __fish_config_reload_if_different
 
     # main prompt function
     fish_prompt_main
