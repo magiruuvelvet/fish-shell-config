@@ -1,15 +1,3 @@
-##
-## Prompt
-##
-
-# delete prompt pwd limit
-set -g fish_prompt_pwd_dir_length 0
-
-# additional shell prompt arguments setup
-function __fish_shell_prompt_options_setup
-    set -e __fish_shell_prompt_options
-    set -g __fish_shell_prompt_options
-end
 
 # get additional command line options for the git prompt component
 function __fish_git_prompt_options
@@ -38,9 +26,7 @@ function __fish_git_prompt_options
     end
 end
 
-##
-## Prompt Main Function
-##
+# prompt main function
 function fish_prompt_main
     # clear additional arguments array
     __fish_shell_prompt_options_setup
@@ -53,7 +39,7 @@ function fish_prompt_main
 
     # disable git repository probing when it was already disabled by the above check
     if [ "$git_repo_present" != 0 ]
-        set -g git_repo_present (/etc/fish/bin/shell-prompt --git-probe-repository)
+        set -g git_repo_present ("$SHELL_PROMPT_BINARY" --git-probe-repository)
     end
 
     # use a different line terminator when path-aware-aliases are available
@@ -62,15 +48,7 @@ function fish_prompt_main
         set -a __fish_shell_prompt_options "--input-line-terminator=$__fish_shell_prompt_line_terminator"
     end
 
-    # https://github.com/magiruuvelvet/shell-prompt
-    # when fish executes binaries while building the prompt, ioctl winsize is disabled
-    # thankfully the terminal size is available in the $COLUMNS and $LINES variables
-    printf "\n"
-    /etc/fish/bin/shell-prompt \
-        --hostname-color "177;50;28" \
-        --last-exit-status "$last_status" \
-        --columns $COLUMNS --lines $LINES \
-        $__fish_shell_prompt_options
+    __fish_shell_prompt_launch
 end
 
 # full clear without regrets, nukes terminal emulator scrollback

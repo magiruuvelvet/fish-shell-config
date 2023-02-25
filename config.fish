@@ -68,7 +68,10 @@ function __fish_command_not_found_handler --on-event fish_command_not_found
 end
 
 # load prompt
-/etc/fish/bin/shell-prompt --shell-init-source fish | source
+set -g SHELL_PROMPT_BINARY "/etc/fish/bin/shell-prompt"
+set -g SHELL_PROMPT_HOSTNAME_COLOR "177;50;28"
+"$SHELL_PROMPT_BINARY" --shell-init-source fish | source
+
 source "$FISH_CONFIG_PREFIX/prompt.d/prompt.fish"
 function fish_prompt
     # store last application exit status
