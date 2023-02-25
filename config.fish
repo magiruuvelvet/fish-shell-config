@@ -9,14 +9,6 @@ if status is-interactive
 set -gx SHELL /bin/fish
 set -gx FISH_CONFIG_PREFIX /etc/fish
 
-# load default aliases
-source "$FISH_CONFIG_PREFIX/aliases.fish"
-
-# note: fish autoloads everything in conf.d/
-#       which breaks my prompt :(
-#       use custom directories instead
-# note 2: wildcard sourcing doesn't seem to work
-
 # disable welcome message (may be useful though for SSH when I install fish on my servers)
 function fish_greeting; end
 
@@ -64,6 +56,7 @@ end
 
 # load prompt
 set -g SHELL_PROMPT_BINARY "/etc/fish/bin/shell-prompt"
+set -g SHELL_PROMPT_LOAD_BUILTINS "true"
 set -g SHELL_PROMPT_HOSTNAME_COLOR "177;50;28"
 "$SHELL_PROMPT_BINARY" --shell-init-source fish | source
 
